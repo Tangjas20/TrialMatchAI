@@ -1,0 +1,20 @@
+# Ignore directories
+data/
+results/
+src/
+utils/finetuning/
+source/models
+source/Parser/resources
+source/Parser/models
+
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore other cache or temporary files
+*.log
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db

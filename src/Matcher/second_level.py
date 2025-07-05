@@ -1,28 +1,29 @@
 import logging
-from typing import List, Dict, Any, cast, Optional
-from elasticsearch import Elasticsearch
+import math
+from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from functools import partial
+from typing import Any, Dict, List, Optional, cast
+
+import numpy as np
 import torch
 import torch.nn.functional as F
+from datasets import Dataset
+from elasticsearch import Elasticsearch
+from torch.amp.autocast_mode import autocast
 from torch.utils.data import DataLoader
+from torch.utils.data import Dataset as TorchDataset
+from tqdm import tqdm
 from transformers import (
     AutoModel,
     AutoTokenizer,
-    PreTrainedTokenizerFast,
     BatchEncoding,
     DataCollatorWithPadding,
+    PreTrainedTokenizerFast,
 )
-from torch.utils.data import Dataset as TorchDataset
-from torch.amp.autocast_mode import autocast
-from functools import partial
-from datasets import Dataset
-import numpy as np
-from collections import defaultdict
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import math
-from tqdm import tqdm
 
-from .llm_reranker import LLMReranker
 from ..Parser.biomedner_engine import BioMedNER
+from .llm_reranker import LLMReranker
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +33,6 @@ BATCH_SIZE = 10
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
-
-torch.backends.cuda.matmul.allow_tf32 = True
-torch.backends.cudnn.allow_tf32 = True
-torch.backends.cudnn.deterministic = True
-torch.backends.cudnn.benchmark = True  # Enable benchmark mode for faster performance
 
 
 class HuggingFaceDatasetWrapper(TorchDataset):
@@ -471,77 +467,3 @@ class SecondStageRetriever:
 
         logger.info("Top trials saved to top_trials.txt")
         return top_trials
-
-
-# ========================
-# Example
-# ========================
-if __name__ == "__main__":
-    es_url = "https://localhost:9200"
-    username = "elastic"
-    password = "QQ7wWoB_WnKe*L*X9tAW"
-
-    es_client = Elasticsearch(
-        hosts=[es_url],
-        ca_certs="certs/ca.crt",
-        basic_auth=(username, password),
-        max_retries=50,
-        request_timeout=120,
-        retry_on_timeout=True,
-    )
-
-    # Initialize BioMedNER
-    bio_med_ner_params = {
-        "biomedner_home": "../Parser",
-        "biomedner_port": 18894,
-        "gner_port": 18783,
-        "gene_norm_port": 18888,
-        "disease_norm_port": 18892,
-        "use_neural_normalizer": True,
-        "no_cuda": False,
-    }
-    bio_med_ner = BioMedNER(**bio_med_ner_params)
-
-    llm_reranker_model_path = "google/gemma-2-2b-it"
-    adapter_path = "finetuning/finetune_instruct_gemma2/finetuned_gemma2"
-
-    llm_reranker_model = LLMReranker(
-        model_path=llm_reranker_model_path,
-        adapter_path=adapter_path,
-        torch_dtype=torch.float16,
-        batch_size=20,
-    )
-
-    embedder = SecondLevelSentenceEmbedder("BAAI/bge-m3")
-    index_name = "trec_trials_eligibility"
-    retriever = SecondStageRetriever(
-        es_client, llm_reranker_model, embedder, index_name, bio_med_ner=bio_med_ner
-    )
-
-    with open("nct_ids.txt", "r") as f:
-        nct_ids = [line.strip() for line in f.readlines()]
-
-    queries = [
-        "The patient has a diagnosis of anaplastic astrocytoma located in the thoracolumbar spine.",
-        "The spinal tumor is classified as unresectable and has been treated with radiation therapy.",
-        "The patient experiences severe lower extremity weakness, which has progressed over time.",
-        "Urinary retention is present, and the patient is managed with a Foley catheter.",
-        "The patient has a history of hypertension that requires ongoing management.",
-        "Chronic pain is a significant issue for the patient, impacting daily activities.",
-        "An MRI revealed a spinal cord conus mass, which was subsequently biopsied and confirmed as anaplastic astrocytoma.",
-        "The patient received field radiation therapy targeting the T10-L1 region of the spine.",
-        "Chemotherapy treatment included temozolomide administered in a 7 days on and 7 days off schedule for 11 cycles.",
-        "Subsequent chemotherapy involved CPT-11 administered weekly for four weeks, followed by Avastin every two weeks with a two-week rest period before repeating the cycle.",
-        "Neurological deficits are evident, characterized by right lower extremity weakness and numbness in the right anterior thigh.",
-        "The patient has been evaluated for potential complications related to steroid use.",
-    ]
-
-    # Get synonyms for first query and add to the list
-    synonyms = retriever.get_synonyms(queries[0])
-    queries.extend(synonyms)
-
-    top_trials = retriever.retrieve_and_rank(queries, nct_ids, top_n=260)
-
-    print("Top Trials:")
-    for trial_id, score in top_trials:
-        print(f"NCT ID: {trial_id}, Score: {score}")

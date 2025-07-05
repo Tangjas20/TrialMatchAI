@@ -1,21 +1,14 @@
-import os
 import json
 import logging
+import os
 from typing import Dict, List
 
-########################################
-# Logging Configuration
-########################################
 logging.basicConfig(
     level=logging.INFO,
     format="[%(asctime)s] %(levelname)s: %(message)s",
     datefmt="%H:%M:%S",
 )
 logger = logging.getLogger(__name__)
-
-########################################
-# Ranking Script
-########################################
 
 
 def load_trial_data(json_folder: str) -> List[Dict]:

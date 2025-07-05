@@ -1,15 +1,15 @@
-import os
-import logging
 import json
-from typing import List
+import logging
 import math
-from multiprocessing import Process
+import os
 import time
+from multiprocessing import Process
+from typing import List
 
 import torch
-from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
-from tqdm import tqdm
 from peft.peft_model import PeftModel
+from tqdm import tqdm
+from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 
 # Configure logging
 logging.basicConfig(
@@ -115,8 +115,8 @@ class BatchTrialProcessor:
 
         # System message: fosters chain-of-thought while maintaining clarity
         system_msg = (
-            "You are a medical expert with advanced knowledge in clinical reasoning, diagnostics, and treatment planning. "
-            "Answer the following question. Before answering, create a step-by-step chain of thoughts to ensure a logical and accurate response.\n"
+            "You are a medical expert in clinical reasoning, diagnostics, and treatment planning. "
+            "Answer using a step-by-step chain of thought for accurate responses."
         )
 
         chat = [
@@ -124,45 +124,43 @@ class BatchTrialProcessor:
             {
                 "role": "user",
                 "content": (
-                    "Assess the given patient's eligibility for a clinical trial by evaluating each and every criterion individually.\n\n"
-                    "### INCLUSION CRITERIA ASSESSMENT\n"
-                    "For each inclusion criterion, classify it as one of:\n"
-                    "- **Met:** The patient's data explicitly and unequivocally satisfies the criterion.\n"
-                    "- **Not Met:** The patient's data explicitly and unequivocally contradicts or fails to satisfy the criterion.\n"
-                    "- **Unclear:** Insufficient or missing patient data to verify.\n"
-                    "- **Irrelevant:** The criterion does not apply to the patient's context.\n\n"
-                    "### EXCLUSION CRITERIA ASSESSMENT\n"
-                    "For each exclusion criterion, classify it as one of:\n"
-                    "- **Violated:** The patient's data explicitly and unequivocally violates the criterion.\n"
-                    "- **Not Violated:** The patient's data confirms compliance with the criterion.\n"
-                    "- **Unclear:** Insufficient or missing patient data to verify.\n"
-                    "- **Irrelevant:** The criterion does not apply to the patient's context.\n\n"
-                    "### IMPORTANT INSTRUCTIONS\n"
-                    "- Ensure all criteria are assessed one-by-one.\n"
-                    "- Use **only** the provided patient data; **do not infer, assume, or extrapolate beyond the given information.**\n"
-                    "- Justifications must be strictly based on direct evidence from the patient profile.\n"
-                    "### RESPONSE FORMAT (STRICTLY FOLLOW)\n"
+                    "Evaluate patient eligibility for a clinical trial by assessing each criterion individually.\n\n"
+                    "### INCLUSION CRITERIA\n"
+                    "Classify each as:\n"
+                    "- **Met:** Patient data clearly meets criterion.\n"
+                    "- **Not Met:** Patient data clearly fails criterion.\n"
+                    "- **Unclear:** Insufficient data to confirm.\n"
+                    "- **Irrelevant:** Criterion does not apply.\n\n"
+                    "### EXCLUSION CRITERIA\n"
+                    "Classify each as:\n"
+                    "- **Violated:** Patient data clearly violates criterion.\n"
+                    "- **Not Violated:** Patient data complies with criterion.\n"
+                    "- **Unclear:** Insufficient data to confirm.\n"
+                    "- **Irrelevant:** Criterion does not apply.\n\n"
+                    "### INSTRUCTIONS\n"
+                    "- Assess each criterion individually.\n"
+                    "- Use **only** provided patient data; do not assume or infer beyond it.\n"
+                    "- Justifications must use direct evidence from patient profile.\n"
+                    "### RESPONSE FORMAT\n"
                     "{\n"
                     '  "Inclusion_Criteria_Evaluation": [\n'
-                    '    {"Criterion": "Exact inclusion criterion text", "Classification": "Met | Not Met | Unclear | Irrelevant", "Justification": "Clear, evidence-based rationale using ONLY provided data"}\n'
+                    '    {"Criterion": "Exact criterion text", "Classification": "Met | Not Met | Unclear | Irrelevant", "Justification": "Evidence-based rationale using only provided data"}\n'
                     "  ],\n"
                     '  "Exclusion_Criteria_Evaluation": [\n'
-                    '    {"Criterion": "Exact exclusion criterion text", "Classification": "Violated | Not Violated | Unclear | Irrelevant", "Justification": "Clear, evidence-based rationale using ONLY provided data"}\n'
+                    '    {"Criterion": "Exact criterion text", "Classification": "Violated | Not Violated | Unclear | Irrelevant", "Justification": "Evidence-based rationale using only provided data"}\n'
                     "  ],\n"
-                    '  "Recap": "Concise summary of key qualifying/disqualifying factors",\n'
-                    '  "Final Decision": "Eligible | Likely Eligible (leaning toward inclusion) | Likely Ineligible (leaning toward exclusion) | Ineligible"\n'
+                    '  "Recap": "Summary of key qualifying/disqualifying factors",\n'
+                    '  "Final Decision": "Eligible | Likely Eligible | Likely Ineligible | Ineligible"\n'
                     "}\n\n"
                     "### INPUT\n"
-                    "---Start of Clinical Trial Criteria---\n"
+                    "---Clinical Trial Criteria---\n"
                     f"{criteria_text_formatted}\n"
-                    "---End of Clinical Trial Criteria---\n\n"
-                    "----\n"
-                    "---Start of Patient Description---\n"
+                    "---End of Criteria---\n\n"
+                    "---Patient Description---\n"
                     f"{patient_profile}\n"
-                    "Written informed consent has been obtained from the patient or their legal representative.\n"
-                    "---End of Patient Description---\n"
-                    "## IMPORTANT REMINDER:\n"
-                    "NEVER make assumptions, inferences, or extrapolations beyond the explicitly stated patient information."
+                    "Written informed consent obtained.\n"
+                    "---End of Description---\n"
+                    "## REMINDER: Do not assume or infer beyond provided patient data."
                 ),
             },
         ]

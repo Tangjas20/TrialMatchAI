@@ -1,13 +1,13 @@
 import logging
-from typing import List, Dict, Union, Optional, Tuple
-from typing import Any
-from typing import cast
-from elasticsearch import Elasticsearch
-from transformers import AutoTokenizer, AutoModel
-import torch
 from datetime import datetime
-from dateutil import parser as date_parser
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
+
 import pandas as pd
+import torch
+from dateutil import parser as date_parser
+from elasticsearch import Elasticsearch
+from transformers import AutoModel, AutoTokenizer
+
 from ..Parser.biomedner_engine import BioMedNER
 
 # Configure logging
@@ -69,7 +69,7 @@ class ClinicalTrialSearch:
         self.es_client = es_client
         self.embedder = embedder
         self.index_name = index_name
-        self.bio_med_ner = bio_med_ner 
+        self.bio_med_ner = bio_med_ner
 
     def get_synonyms(self, condition: str) -> List[str]:
         raw_result = self.bio_med_ner.annotate_texts_in_parallel(

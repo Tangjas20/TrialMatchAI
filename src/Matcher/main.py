@@ -1,29 +1,29 @@
 #!/usr/bin/env python3
+import json
+import logging
+import multiprocessing as mp
+import os
 import socket
 import subprocess
 import time
-import os
-import json
-import logging
-import torch
-import multiprocessing as mp
-from peft.peft_model import PeftModel
-from transformers import PreTrainedTokenizer
 from typing import Tuple, cast
 
+import torch
 from elasticsearch import Elasticsearch
+from peft.peft_model import PeftModel
 from transformers import (
-    pipeline,
     AutoModelForCausalLM,
     AutoTokenizer,
     BitsAndBytesConfig,
+    PreTrainedTokenizer,
+    pipeline,
 )
-from ..Parser.biomedner_engine import BioMedNER
 
-from . import parse_and_augment as pag
-from . import first_level as fl
-from . import second_level as sl
+from ..Parser.biomedner_engine import BioMedNER
 from . import cot_reasoning as cr
+from . import first_level as fl
+from . import parse_and_augment as pag
+from . import second_level as sl
 from . import trial_ranker as tr
 from .llm_reranker import LLMReranker
 
