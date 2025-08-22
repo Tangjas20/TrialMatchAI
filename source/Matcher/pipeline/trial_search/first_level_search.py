@@ -23,17 +23,23 @@ class ClinicalTrialSearch:
         self.bio_med_ner = bio_med_ner
 
     def get_synonyms(self, condition: str) -> List[str]:
-        raw_result = self.bio_med_ner.annotate_texts_in_parallel(
-            [condition], max_workers=1
-        )
-        ner_results = raw_result
-        if ner_results and ner_results[0]:
-            synonyms = set()
-            for entity in ner_results[0]:
-                if entity.get("entity_group", "").lower() == "disease":
-                    synonyms.update(entity.get("synonyms", []))
-            return list(synonyms)
-        logger.warning(f"No annotations found for condition: {condition}")
+        if not self.bio_med_ner:
+            logger.info("BioMedNER disabled; skipping synonyms extraction.")
+            return []
+        try:
+            raw_result = self.bio_med_ner.annotate_texts_in_parallel(
+                [condition], max_workers=1
+            )
+            ner_results = raw_result
+            if ner_results and ner_results[0]:
+                synonyms = set()
+                for entity in ner_results[0]:
+                    if entity.get("entity_group", "").lower() == "disease":
+                        synonyms.update(entity.get("synonyms", []))
+                return list(synonyms)
+            logger.warning(f"No annotations found for condition: {condition}")
+        except Exception as e:
+            logger.error(f"BioMedNER synonym extraction failed for '{condition}': {e}")
         return []
 
     def parse_age_input(self, age_input: Union[int, str]) -> Optional[int]:
@@ -109,6 +115,7 @@ class ClinicalTrialSearch:
         vector_score_threshold: float = 0.5,
         pre_selected_nct_ids: Optional[List[str]] = None,
         other_conditions: Optional[List[str]] = None,
+        search_mode: str = "hybrid",
     ) -> Dict:
         sex = sex.upper()
         gender_terms = {
@@ -188,26 +195,99 @@ class ClinicalTrialSearch:
         for condition in synonyms + (other_conditions or []):
             if condition:
                 for match_type in ["best_fields", "phrase"]:
-                    should_clauses.append(
-                        {
-                            "multi_match": {
-                                "query": condition,
-                                "fields": [
-                                    "condition^6",
-                                    "eligibility_criteria^4",
-                                    "brief_title^3",
-                                    "brief_summary^2",
-                                    "detailed_description^1.5",
-                                    "official_title",
-                                ],
-                                "type": match_type,
-                                "operator": "and"
-                                if match_type == "best_fields"
-                                else None,
-                            }
+                    multi_match = {
+                        "query": condition,
+                        "fields": [
+                            "condition^6",
+                            "eligibility_criteria^4",
+                            "brief_title^3",
+                            "brief_summary^2",
+                            "detailed_description^1.5",
+                            "official_title",
+                        ],
+                        "type": match_type,
+                    }
+                    if match_type == "best_fields":
+                        multi_match["operator"] = "and"
+                    should_clauses.append({"multi_match": multi_match})
+
+        search_mode = (search_mode or "hybrid").lower()
+        if search_mode == "bm25":
+            return {
+                "bool": {
+                    "should": should_clauses,
+                    "minimum_should_match": 0,
+                    "filter": filters,
+                }
+            }
+
+        # Prepare vectors for vector/hybrid
+        query_vectors = list(embeddings.values())
+        other_vectors = (
+            list(self.embedder.get_embeddings(other_conditions).values())
+            if other_conditions
+            else []
+        )
+
+        if search_mode == "vector":
+            return {
+                "script_score": {
+                    "query": {
+                        "bool": {
+                            "filter": filters,
                         }
-                    )
-        query = {
+                    },
+                    "script": {
+                        "source": """
+                            double maxConditionVectorScore = 0.0;
+                            double maxTitleVectorScore = 0.0;
+                            double maxSummaryVectorScore = 0.0;
+                            double maxEligibilityVectorScore = 0.0;
+                            double totalOtherConditionScore = 0.0;
+                            for (int i = 0; i < params.query_vectors.length; ++i) {
+                                maxConditionVectorScore = Math.max(maxConditionVectorScore, cosineSimilarity(params.query_vectors[i], 'condition_vector'));
+                                maxTitleVectorScore = Math.max(maxTitleVectorScore, cosineSimilarity(params.query_vectors[i], 'brief_title_vector'));
+                                maxSummaryVectorScore = Math.max(maxSummaryVectorScore, cosineSimilarity(params.query_vectors[i], 'brief_summary_vector'));
+                                maxEligibilityVectorScore = Math.max(maxEligibilityVectorScore, cosineSimilarity(params.query_vectors[i], 'eligibility_criteria_vector'));
+                            }
+                            int otherConditionCount = params.other_condition_vectors.length;
+                            for (int i = 0; i < otherConditionCount; ++i) {
+                                totalOtherConditionScore += cosineSimilarity(params.other_condition_vectors[i], 'condition_vector');
+                                totalOtherConditionScore += cosineSimilarity(params.other_condition_vectors[i], 'brief_title_vector');
+                                totalOtherConditionScore += cosineSimilarity(params.other_condition_vectors[i], 'eligibility_criteria_vector');
+                                totalOtherConditionScore += cosineSimilarity(params.other_condition_vectors[i], 'brief_summary_vector');
+                            }
+                            if (otherConditionCount > 0) {
+                                totalOtherConditionScore /= (otherConditionCount * 4);
+                            }
+                            double normalizedConditionScore = (maxConditionVectorScore + 1.0) / 2.0;
+                            double normalizedTitleScore = (maxTitleVectorScore + 1.0) / 2.0;
+                            double normalizedSummaryScore = (maxSummaryVectorScore + 1.0) / 2.0;
+                            double normalizedEligibilityScore = (maxEligibilityVectorScore + 1.0) / 2.0;
+                            double normalizedOtherConditionScore = (totalOtherConditionScore + 1.0) / 2.0;
+                            double combinedVectorScore = (
+                                0.3 * normalizedConditionScore +
+                                0.1 * normalizedTitleScore +
+                                0.1 * normalizedSummaryScore +
+                                0.2 * normalizedOtherConditionScore +
+                                0.3 * normalizedEligibilityScore
+                            );
+                            if (combinedVectorScore < params.vector_score_threshold) {
+                                return 0;
+                            }
+                            return combinedVectorScore;
+                        """,
+                        "params": {
+                            "query_vectors": query_vectors,
+                            "other_condition_vectors": other_vectors,
+                            "vector_score_threshold": vector_score_threshold,
+                        },
+                    },
+                }
+            }
+
+        # Hybrid (default)
+        return {
             "script_score": {
                 "query": {
                     "bool": {
@@ -262,19 +342,14 @@ class ClinicalTrialSearch:
                         return alpha * normalizedTextScore + beta * combinedVectorScore;
                     """,
                     "params": {
-                        "query_vectors": list(embeddings.values()),
-                        "other_condition_vectors": list(
-                            self.embedder.get_embeddings(other_conditions).values()
-                        )
-                        if other_conditions
-                        else [],
+                        "query_vectors": query_vectors,
+                        "other_condition_vectors": other_vectors,
                         "max_text_score": max_text_score,
                         "vector_score_threshold": vector_score_threshold,
                     },
                 },
             }
         }
-        return query
 
     def search_trials(
         self,
@@ -287,6 +362,7 @@ class ClinicalTrialSearch:
         synonyms: Optional[List[str]] = None,
         other_conditions: Optional[List[str]] = None,
         vector_score_threshold: float = 0.0,
+        search_mode: str = "hybrid",
     ) -> Tuple[List[Dict], List[float]]:
         if age_input not in ["all", "ALL", "All"]:
             age = self.parse_age_input(age_input)
@@ -296,8 +372,20 @@ class ClinicalTrialSearch:
             age = None
         primary_synonyms = [condition] + (synonyms or [])
         all_terms = primary_synonyms + (other_conditions or [])
-        embeddings = self.embedder.get_embeddings(all_terms)
-        max_text_score = self.get_max_text_score(primary_synonyms)
+
+        mode = (search_mode or "hybrid").lower()
+        embeddings: Dict[str, List[float]] = {}
+        if mode in {"vector", "hybrid"} and self.embedder is not None:
+            embeddings = self.embedder.get_embeddings(all_terms)
+        elif mode in {"vector", "hybrid"} and self.embedder is None:
+            logger.warning(
+                "Vector/hybrid mode selected but embedder is None. Falling back to BM25 only."
+            )
+            mode = "bm25"
+
+        max_text_score = (
+            1.0 if mode == "vector" else self.get_max_text_score(primary_synonyms)
+        )
         query = self.create_query(
             primary_synonyms,
             embeddings,
@@ -308,6 +396,7 @@ class ClinicalTrialSearch:
             vector_score_threshold,
             pre_selected_nct_ids,
             other_conditions,
+            search_mode=mode,
         )
         response = self.es_client.search(
             index=self.index_name, body={"size": size, "query": query}
@@ -320,5 +409,7 @@ class ClinicalTrialSearch:
         )
         top_x_percent_index = int(len(trials_with_scores) * 1.0)
         trials = [trial for trial, score in trials_with_scores[:top_x_percent_index]]
-        logger.info(f"Found {len(trials)} trials matching the search criteria.")
+        logger.info(
+            f"[{mode}] Found {len(trials)} trials matching the search criteria."
+        )
         return trials, scores

@@ -8,7 +8,6 @@ from pathlib import Path
 from elasticsearch import Elasticsearch, NotFoundError
 from elasticsearch.helpers import bulk
 
-# ──────────────────────────────────────────────────────────────────────────────
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s - %(message)s",
     level=logging.INFO,
@@ -241,7 +240,7 @@ def main():
     es = make_es_client(cfg)
 
     indexer = CriteriaIndexer(
-        es=es, index_name=args.index_name, processed_file=Path("processed_trials.txt")
+        es=es, index_name=args.index_name, processed_file=Path("processed_ids.txt")
     )
     indexer.index_all(
         processed_folder=Path(args.processed_folder),

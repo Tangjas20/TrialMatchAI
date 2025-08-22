@@ -27,9 +27,27 @@ class LLMReranker:
         self.adapter_path = adapter_path
         self.torch_dtype = torch_dtype
         self.batch_size = batch_size
-        self.device = device
+        # Resolve device string
+        if torch.cuda.is_available():
+            cuda_count = torch.cuda.device_count()
+            idx = int(device) if isinstance(device, int) else 0
+            if idx < 0 or idx >= cuda_count:
+                logger.warning(
+                    f"LLMReranker: requested CUDA device {device} invalid; using 0 (num_gpus={cuda_count})."
+                )
+                idx = 0
+            self.device_str = f"cuda:{idx}"
+            # Ensure Accelerate/HF loaders use the selected GPU when device_map='auto'
+            try:
+                torch.cuda.set_device(idx)
+            except Exception as e:
+                logger.warning(f"Could not set CUDA device to {idx}: {e}")
+        else:
+            logger.warning("LLMReranker: CUDA not available; using CPU.")
+            self.device_str = "cpu"
+
         self.tokenizer = AutoTokenizer.from_pretrained(
-            model_path, trust_remote_code=True
+            self.model_path, trust_remote_code=True
         )
         self._initialize_token_ids()
         self.model = self.load_model()
@@ -46,18 +64,23 @@ class LLMReranker:
         ]
 
     def load_model(self):
-        quant_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_use_double_quant=True,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=self.torch_dtype,
+        use_cuda = self.device_str.startswith("cuda")
+        quant_config = (
+            BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_use_double_quant=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_compute_dtype=self.torch_dtype,
+            )
+            if use_cuda
+            else None
         )
         model = AutoModelForCausalLM.from_pretrained(
             self.model_path,
-            torch_dtype=self.torch_dtype,
+            torch_dtype=self.torch_dtype if use_cuda else torch.float32,
             quantization_config=quant_config,
-            device_map=f"cuda:{self.device}",
-            attn_implementation="flash_attention_2",
+            device_map="auto" if use_cuda else None,
+            attn_implementation="flash_attention_2" if use_cuda else None,
             trust_remote_code=True,
         )
         if self.adapter_path:
@@ -96,9 +119,8 @@ class LLMReranker:
                 messages, tokenize=False, add_generation_prompt=True
             )
             batch_prompts.append(prompt)
-        inputs = self.tokenizer(batch_prompts, return_tensors="pt", padding=True).to(
-            self.device
-        )
+        inputs = self.tokenizer(batch_prompts, return_tensors="pt", padding=True)
+        inputs = {k: v.to(self.device_str) for k, v in inputs.items()}
         with self.model_lock:
             with torch.no_grad():
                 outputs = self.model(**inputs)

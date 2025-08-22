@@ -6,7 +6,7 @@ import torch
 from Matcher.utils.file_utils import read_json_file, write_json_file
 from Matcher.utils.logging_config import setup_logging
 from Matcher.utils.temporal_utils import parse_iso_duration, parse_temporal
-from transformers import AutoTokenizer, pipeline
+from transformers import AutoModelForCausalLM, AutoTokenizer
 
 logger = setup_logging()
 
@@ -242,18 +242,12 @@ class ClinicalSummarizer:
                 raise ValueError(
                     "A tokenizer must be provided if a model instance is given."
                 )
-            self.pipeline = pipeline(
-                "text-generation",
-                model=model,
-                tokenizer=tokenizer,
-                torch_dtype=torch.float16,
-                device_map="auto",
-            )
+            self.model = model
+            self.tokenizer = tokenizer
         elif model_name is not None:
-            self.pipeline = pipeline(
-                "text-generation",
-                model=model_name,
-                tokenizer=AutoTokenizer.from_pretrained(model_name),
+            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+            self.model = AutoModelForCausalLM.from_pretrained(
+                model_name,
                 torch_dtype=torch.float16,
                 device_map="auto",
             )
@@ -261,6 +255,8 @@ class ClinicalSummarizer:
             raise ValueError(
                 "Must provide either a model instance with its tokenizer or a model_name."
             )
+
+        self.model.eval()
 
     def generate_summary(self, sentences: List[str]) -> Dict:
         SYSTEM_PROMPT = """
@@ -277,7 +273,7 @@ class ClinicalSummarizer:
             - Provide these factors in the "other_conditions" list.
 
         3. **Expanded Clinical Descriptions**:
-            - Based solely on the original patient-providedpeter data, generate semantically accurate and medically sound statements resembling real-life medical notes.
+            - Based solely on the original patient-provided data, generate semantically accurate and medically sound statements resembling real-life medical notes.
             - **Crucial**: Expanded descriptions must strictly reflect explicit patient-reported information without introducing new or inferred medical details.
 
         Output:
@@ -297,24 +293,32 @@ class ClinicalSummarizer:
             {"role": "system", "content": SYSTEM_PROMPT.strip()},
             {"role": "user", "content": " ".join(sentences)},
         ]
-        try:
-            if self.pipeline.tokenizer is None:
-                raise ValueError("Tokenizer is not initialized.")
-            prompt = self.pipeline.tokenizer.apply_chat_template(
-                messages, truncate=False, add_generation_prompt=True
-            )
-            raw_outputs = self.pipeline(
-                prompt, max_new_tokens=2048, do_sample=False, return_full_text=False
-            )
-            from collections.abc import Iterable
 
-            outputs = list(raw_outputs) if isinstance(raw_outputs, Iterable) else []
-            if not outputs or not isinstance(outputs[0], dict):
-                raise ValueError("Invalid output format from pipeline.")
-            generated_text = outputs[0].get("generated_text", "")
+        try:
+            prompt = self.tokenizer.apply_chat_template(
+                messages,
+                truncate=False,
+                add_generation_prompt=True,
+                return_tensors="pt",
+            ).to(self.model.device)
+
+            with torch.no_grad():
+                output_ids = self.model.generate(
+                    prompt,
+                    max_new_tokens=2048,
+                    do_sample=False,
+                    return_dict_in_generate=False,
+                    pad_token_id=self.tokenizer.eos_token_id,
+                )
+
+            # Only decode the newly generated tokens
+            generated_text = self.tokenizer.decode(
+                output_ids[0][prompt.shape[-1] :], skip_special_tokens=True
+            )
             return self._extract_llm_output(generated_text)
+
         except Exception as e:
-            logger.error(f"LLM processing failed: {e}")
+            logger.error(f"LLM generation failed: {e}")
             return {
                 "main_conditions": [],
                 "other_conditions": [],

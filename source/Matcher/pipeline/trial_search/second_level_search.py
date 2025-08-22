@@ -3,11 +3,12 @@ from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List
 
-from elasticsearch import Elasticsearch
 from Matcher.models.embedding.sentence_embedder import SecondLevelSentenceEmbedder
 from Matcher.models.llm.llm_reranker import LLMReranker
 from Matcher.utils.file_utils import write_text_file
 from Matcher.utils.logging_config import setup_logging
+
+from elasticsearch import Elasticsearch
 
 logger = setup_logging()
 
@@ -57,6 +58,14 @@ class SecondStageRetriever:
 
         def execute_query(query):
             query_vector = self.embedder.get_embeddings(query)
+
+            # Use entities.synonyms only if BioMedNER is enabled
+            fields_to_search = (
+                ["criterion", "entities.synonyms"]
+                if self.bio_med_ner is not None
+                else ["criterion"]
+            )
+
             es_query = {
                 "script_score": {
                     "query": {
@@ -65,7 +74,7 @@ class SecondStageRetriever:
                                 {
                                     "multi_match": {
                                         "query": query,
-                                        "fields": ["criterion", "entities.synonyms"],
+                                        "fields": fields_to_search,
                                         "type": "best_fields",
                                         "operator": "and",
                                     }
@@ -73,14 +82,14 @@ class SecondStageRetriever:
                                 {
                                     "multi_match": {
                                         "query": query,
-                                        "fields": ["criterion", "entities.synonyms"],
+                                        "fields": fields_to_search,
                                         "type": "phrase",
                                     }
                                 },
                                 {
                                     "multi_match": {
                                         "query": query,
-                                        "fields": ["criterion", "entities.synonyms"],
+                                        "fields": fields_to_search,
                                         "type": "best_fields",
                                         "operator": "or",
                                     }
@@ -147,6 +156,20 @@ class SecondStageRetriever:
             criterion["llm_score"] = llm_score
         return criteria
 
+    def score_criteria_without_llm(self, criteria: List[Dict]) -> List[Dict]:
+        if not criteria:
+            return criteria
+        max_es = max((c.get("_score", 0.0) for c in criteria), default=1.0) or 1.0
+        for criterion in criteria:
+            base = float(criterion.get("_score", 0.0)) / max_es
+            eligibility_type = criterion["_source"].get("eligibility_type", "").lower()
+            if eligibility_type == "inclusion criteria":
+                base *= self.inclusion_weight
+            elif eligibility_type == "exclusion criteria":
+                base *= self.exclusion_weight
+            criterion["llm_score"] = base
+        return criteria
+
     def aggregate_to_trials(
         self, criteria: List[Dict], threshold: float = 0.5, method: str = "weighted"
     ) -> List[Dict]:
@@ -182,7 +205,12 @@ class SecondStageRetriever:
         return sorted_trials
 
     def retrieve_and_rank(
-        self, queries: List[str], nct_ids: List[str], top_n: int
+        self,
+        queries: List[str],
+        nct_ids: List[str],
+        top_n: int,
+        use_reranker: bool = True,
+        save_path: str = None,
     ) -> List[Dict]:
         query_to_hits = self.retrieve_criteria(nct_ids, queries)
         all_criteria = []
@@ -190,10 +218,19 @@ class SecondStageRetriever:
             for hit in hits:
                 hit["query"] = query
                 all_criteria.append(hit)
-        ranked_criteria = self.rerank_criteria(queries, all_criteria)
+
+        if use_reranker:
+            ranked_criteria = self.rerank_criteria(queries, all_criteria)
+        else:
+            logger.info(
+                "Second-level reranking disabled; using ES scores for aggregation."
+            )
+            ranked_criteria = self.score_criteria_without_llm(all_criteria)
+
         sorted_trials = self.aggregate_to_trials(ranked_criteria)
         top_trials = sorted_trials[:top_n]
         logger.info(f"Top {top_n} trials retrieved: {top_trials}")
-        write_text_file([trial["nct_id"] for trial in top_trials], "top_trials.txt")
-        logger.info("Top trials saved to top_trials.txt")
+        if save_path:
+            write_text_file([trial["nct_id"] for trial in top_trials], save_path)
+            logger.info(f"Top trials saved to {save_path}")
         return top_trials
