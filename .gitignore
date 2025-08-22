@@ -6,6 +6,7 @@ utils/finetuning/
 source/models
 source/Parser/resources
 source/Parser/models
+elasticsearch/sif
 
 # Ignore Python cache files
 __pycache__/
@@ -18,3 +19,5 @@ __pycache__/
 *.swp
 .DS_Store
 Thumbs.db
+
+elasticsearch/sif/*.sif
