@@ -1,0 +1,1652 @@
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+BioMedNER init_t 29.402 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 35966)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.669 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.610 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 45884)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.859 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.568 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 42404)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.614 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.569 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 41016)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.588 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.575 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 56102)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.709 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.588 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 48200)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.661 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.557 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 36736)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.591 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.584 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 47216)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.595 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.570 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 43336)
+0it [00:00, ?it/s]1it [00:00, 277.49it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.26it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.25it/s]
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py:129: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at ../c10/cuda/CUDAFunctions.cpp:108.)
+  return torch._C._cuda_getDeviceCount() > 0
+BioMedNER init_t 0.587 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 40404)
+0it [00:00, ?it/s]1it [00:00, 314.77it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.20it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.19it/s]
+Response sent for ae359d59fbd91b79b8cac7ab1f66afbc91f6716227b6f73af5964a47.PubTator
+Connected by ('127.0.0.1', 38802)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.655 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.574 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 43746)
+0it [00:00, ?it/s]1it [00:00, 293.29it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.65it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.64it/s]
+Response sent for e78efe64b067d7c6ebe4216819000751a7603e0892821caf88bbe57c.PubTator
+Connected by ('127.0.0.1', 60292)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.553 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.607 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 56030)
+0it [00:00, ?it/s]1it [00:00, 280.82it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.11it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.10it/s]
+Response sent for d8c0749b4cabbd5e7fa9c366d366170266a0289a6471006ccc4cce4e.PubTator
+Connected by ('127.0.0.1', 51812)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.635 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.585 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 41308)
+0it [00:00, ?it/s]1it [00:00, 251.53it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.58it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.57it/s]
+Response sent for 99653b33f56427874f327320e5fbe809e84c11edf053dcf16a9f6304.PubTator
+Connected by ('127.0.0.1', 34052)
+0it [00:00, ?it/s]1it [00:00, 862.85it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 40.18it/s]
+Response sent for 6c9ce2824b187646d864962dc8d8875097e553b032c259364b47c8e4.PubTator
+Connected by ('127.0.0.1', 36050)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.592 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.577 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 47960)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.694 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 6.985 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 47844)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.696 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.662 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 59032)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.741 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.699 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 50936)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.726 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.672 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 36716)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.801 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.655 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 37582)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.739 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.679 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 42482)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.742 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.665 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 33430)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.814 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.659 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 54618)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.698 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py:182: UserWarning: CUDA initialization: CUDA unknown error - this may be due to an incorrectly set up environment, e.g. changing env variable CUDA_VISIBLE_DEVICES after program start. Setting the available devices to be zero. (Triggered internally at /pytorch/c10/cuda/CUDAFunctions.cpp:109.)
+  return torch._C._cuda_getDeviceCount() > 0
+BioMedNER init_t 7.251 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 54154)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.674 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.603 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 37958)
+0it [00:00, ?it/s]1it [00:00, 39.05it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.85it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.84it/s]
+Response sent for 2dfc5be0d0231979e69390328155926f65b2e97e59a1eeec9eb31e73.PubTator
+Connected by ('127.0.0.1', 49468)
+0it [00:00, ?it/s]1it [00:00, 779.76it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 36.59it/s]
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/numpy/lib/_function_base_impl.py:552: RuntimeWarning: Mean of empty slice.
+  avg = a.mean(axis, **keepdims_kw)
+/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/numpy/_core/_methods.py:145: RuntimeWarning: invalid value encountered in scalar divide
+  ret = ret.dtype.type(ret / rcount)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           Response sent for db7442428d1dd92f798475bc173d0b523bdd022963e7e0eff5ff05a7.PubTator
+Connected by ('127.0.0.1', 49872)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.695 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.627 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 46032)
+0it [00:00, ?it/s]1it [00:00, 287.18it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  4.94it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  4.93it/s]
+Response sent for 57c274e89711aee0e215c55ce2570826468ebf80104f04b418e79b23.PubTator
+Connected by ('127.0.0.1', 56194)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.690 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.631 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 60866)
+0it [00:00, ?it/s]1it [00:00, 269.75it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.14it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.12it/s]
+Response sent for 0fb7e7924a0c2b8724b4b5d94aacd0e7bfbc6f6e1214b83b0d11d208.PubTator
+Connected by ('127.0.0.1', 46484)
+0it [00:00, ?it/s]1it [00:00, 698.93it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.14it/s]
+Response sent for a09149cbf48d3f07b7ce16a02353412a74ffb11fb57d4416c27c58a9.PubTator
+Connected by ('127.0.0.1', 51354)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.724 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.632 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 52600)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.655 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.625 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 42170)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.675 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.595 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 38802)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.720 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.655 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 39294)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.688 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.609 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 34964)
+0it [00:00, ?it/s]1it [00:00, 276.47it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.25it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.25it/s]
+BioMedNER init_t 0.653 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 51060)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+Traceback (most recent call last):
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 421, in _lazy_init
+    queued_call()
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 269, in _check_capability
+    capability = get_device_capability(d)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 598, in get_device_capability
+    prop = get_device_properties(device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 618, in get_device_properties
+    return _get_device_properties(device)  # type: ignore[name-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 115, in <module>
+    mt_ner = BioMedNER(args)
+             ^^^^^^^^^^^^^^^
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 574, in __init__
+    self.model.to(self.device)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4276, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+           ^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 427, in _lazy_init
+    raise DeferredCudaCallError(msg) from e
+torch.cuda.DeferredCudaCallError: CUDA call failed lazily at initialization with error: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+CUDA call was originally invoked at:
+
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 9, in <module>
+    from biomedner_init import BioMedNER
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 10, in <module>
+    import torch
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/__init__.py", line 2087, in <module>
+    _C._initExtension(_manager_path())
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 356, in <module>
+    _lazy_call(_check_capability)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 353, in _lazy_call
+    _queued_calls.append((callable, traceback.format_stack()))
+
+Traceback (most recent call last):
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 421, in _lazy_init
+    queued_call()
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 269, in _check_capability
+    capability = get_device_capability(d)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 598, in get_device_capability
+    prop = get_device_properties(device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 618, in get_device_properties
+    return _get_device_properties(device)  # type: ignore[name-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 115, in <module>
+    mt_ner = BioMedNER(args)
+             ^^^^^^^^^^^^^^^
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 574, in __init__
+    self.model.to(self.device)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4276, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+           ^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 427, in _lazy_init
+    raise DeferredCudaCallError(msg) from e
+torch.cuda.DeferredCudaCallError: CUDA call failed lazily at initialization with error: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+CUDA call was originally invoked at:
+
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 9, in <module>
+    from biomedner_init import BioMedNER
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 10, in <module>
+    import torch
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/__init__.py", line 2087, in <module>
+    _C._initExtension(_manager_path())
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 356, in <module>
+    _lazy_call(_check_capability)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 353, in _lazy_call
+    _queued_calls.append((callable, traceback.format_stack()))
+
+Traceback (most recent call last):
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 421, in _lazy_init
+    queued_call()
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 269, in _check_capability
+    capability = get_device_capability(d)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 598, in get_device_capability
+    prop = get_device_properties(device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 618, in get_device_properties
+    return _get_device_properties(device)  # type: ignore[name-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 115, in <module>
+    mt_ner = BioMedNER(args)
+             ^^^^^^^^^^^^^^^
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 574, in __init__
+    self.model.to(self.device)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4276, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+           ^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 427, in _lazy_init
+    raise DeferredCudaCallError(msg) from e
+torch.cuda.DeferredCudaCallError: CUDA call failed lazily at initialization with error: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+CUDA call was originally invoked at:
+
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 9, in <module>
+    from biomedner_init import BioMedNER
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 10, in <module>
+    import torch
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/__init__.py", line 2087, in <module>
+    _C._initExtension(_manager_path())
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 356, in <module>
+    _lazy_call(_check_capability)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 353, in _lazy_call
+    _queued_calls.append((callable, traceback.format_stack()))
+
+Traceback (most recent call last):
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 421, in _lazy_init
+    queued_call()
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 269, in _check_capability
+    capability = get_device_capability(d)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 598, in get_device_capability
+    prop = get_device_properties(device)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 618, in get_device_properties
+    return _get_device_properties(device)  # type: ignore[name-defined]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 115, in <module>
+    mt_ner = BioMedNER(args)
+             ^^^^^^^^^^^^^^^
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 574, in __init__
+    self.model.to(self.device)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/transformers/modeling_utils.py", line 4276, in to
+    return super().to(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1371, in to
+    return self._apply(convert)
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 930, in _apply
+    module._apply(fn)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 957, in _apply
+    param_applied = fn(param)
+                    ^^^^^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1357, in convert
+    return t.to(
+           ^^^^^
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 427, in _lazy_init
+    raise DeferredCudaCallError(msg) from e
+torch.cuda.DeferredCudaCallError: CUDA call failed lazily at initialization with error: device >= 0 && device < num_gpus INTERNAL ASSERT FAILED at "/pytorch/aten/src/ATen/cuda/CUDAContext.cpp":52, please report a bug to PyTorch. device=1, num_gpus=1
+
+CUDA call was originally invoked at:
+
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 9, in <module>
+    from biomedner_init import BioMedNER
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_init.py", line 10, in <module>
+    import torch
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/__init__.py", line 2087, in <module>
+    _C._initExtension(_manager_path())
+  File "<frozen importlib._bootstrap>", line 1178, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1149, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 356, in <module>
+    _lazy_call(_check_capability)
+  File "/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/cuda/__init__.py", line 353, in _lazy_call
+    _queued_calls.append((callable, traceback.format_stack()))
+
+BioMedNER init_t 0.242 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 7.317 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 58510)
+0it [00:00, ?it/s]1it [00:00, 19.72it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]Prediction: 100%|██████████| 1/1 [00:03<00:00,  3.28s/it]
+Response sent for 6db4a18d11e3899c21b4cc11489cf3c8b457a40273c48ecd39ab4377.PubTator
+Connected by ('127.0.0.1', 55736)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.764 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.683 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.603 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 56866)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.685 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.634 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 40636)
+0it [00:00, ?it/s]1it [00:00, 269.31it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.35it/s]
+Response sent for 99151b7a67a22ab55f38dd2a06a3d775da819ea5d446a03adda90b14.PubTator
+Connected by ('127.0.0.1', 39134)
+0it [00:00, ?it/s]1it [00:00, 843.58it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.80it/s]
+Response sent for fb70ddb214ae646af6262f0d81f16392aea2d1c51d135bdc5ef78115.PubTator
+Connected by ('127.0.0.1', 40796)
+0it [00:00, ?it/s]1it [00:00, 617.54it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.15it/s]
+Response sent for d13f07266a57d3b9ba73f0a0c9a21408eaf190b110eeb44776863fe8.PubTator
+Connected by ('127.0.0.1', 35590)
+0it [00:00, ?it/s]1it [00:00, 728.05it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 33.81it/s]
+Response sent for 6d60d5573378fb2ca71a90099fe304ec4d5532cafebec4676f42fe28.PubTator
+Connected by ('127.0.0.1', 50156)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.653 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.631 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 55970)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.647 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.633 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 57358)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.673 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.827 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 48700)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.700 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.592 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 53558)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.643 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.699 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.615 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 35666)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.725 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.618 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 41872)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.699 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.616 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 59346)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.661 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.672 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.605 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 34754)
+0it [00:00, ?it/s]1it [00:00, 242.38it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.04it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.03it/s]
+Response sent for 3e4cb8e7df26c985018bd8c25b5efa344c861af6fe4929e3d910128a.PubTator
+Connected by ('127.0.0.1', 40944)
+0it [00:00, ?it/s]1it [00:00, 786.63it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.36it/s]
+Response sent for e255e7d010331dabb92a4c12029f2fa1f3080eabb86ec5c7bcd14326.PubTator
+Connected by ('127.0.0.1', 34452)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.588 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.656 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.695 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.607 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 34186)
+0it [00:00, ?it/s]1it [00:00, 45.21it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.69it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.68it/s]
+Response sent for a1f93c97c4fa3a0e9c279be4d49a56bef290b4242e0e72b792d607b4.PubTator
+Connected by ('127.0.0.1', 54746)
+0it [00:00, ?it/s]1it [00:00, 724.53it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.27it/s]
+Response sent for 643bdfe9af48c14c2eca0ae9b39b15d57e78077cc70e3df07d888f1f.PubTator
+Connected by ('127.0.0.1', 45694)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.654 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.659 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 46644)
+0it [00:00, ?it/s]1it [00:00, 38.32it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.14it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.13it/s]
+Response sent for 7bbf3bbb6ce76096d9fbc4afcf95b756696944eb3970d9ae79a453c2.PubTator
+Connected by ('127.0.0.1', 55344)
+0it [00:00, ?it/s]1it [00:00, 813.80it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 36.94it/s]
+Response sent for 427736011957cbb0ce549f492b0330b9d77ba984a2beb7b2abca8453.PubTator
+Connected by ('127.0.0.1', 33852)
+0it [00:00, ?it/s]1it [00:00, 908.84it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 36.80it/s]
+Response sent for cd52dd424cb42cb53d92271bdd29ee9d3fa8bda53b90517a830f3685.PubTator
+Connected by ('127.0.0.1', 49950)
+0it [00:00, ?it/s]1it [00:00, 912.80it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.68it/s]
+Response sent for f5103ff8dd9ca435775ae888a3777ff367e7d2bf988b746c61e21cd9.PubTator
+Connected by ('127.0.0.1', 36354)
+0it [00:00, ?it/s]1it [00:00, 926.92it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.63it/s]
+Response sent for 9471c3496c72a025b12c32c03e254c54fd34a88ad8c5d467920db40e.PubTator
+Connected by ('127.0.0.1', 44702)
+0it [00:00, ?it/s]1it [00:00, 818.88it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 33.01it/s]
+Response sent for 1cd9760fe682423e9e3c37d70f3e932d45259c7c9d4b6e911fbf9b42.PubTator
+Connected by ('127.0.0.1', 35172)
+0it [00:00, ?it/s]1it [00:00, 644.98it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.16it/s]
+Response sent for 7c24cb8cc3a7c35ca168b66e94c7cc0f7233f362f69b08c9b60eb758.PubTator
+Connected by ('127.0.0.1', 51530)
+0it [00:00, ?it/s]1it [00:00, 864.98it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 43.12it/s]
+Response sent for b4364ea1aa7c138ce56345794e8201b25ccddbceccc3a0a6699f7c0f.PubTator
+Connected by ('127.0.0.1', 37264)
+0it [00:00, ?it/s]1it [00:00, 1019.02it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.10it/s]
+Response sent for cc07129a14bc136b9fb4a3ab01ea61864fe49f0dc442b3ed29a8b62c.PubTator
+Connected by ('127.0.0.1', 53686)
+0it [00:00, ?it/s]1it [00:00, 864.98it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 42.69it/s]
+Response sent for bbdc029db533f0cb0bd9ec2c28ec49703dcefdf858055062923a1e04.PubTator
+Connected by ('127.0.0.1', 57940)
+0it [00:00, ?it/s]1it [00:00, 864.98it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 40.30it/s]
+Response sent for f543f4f8e42327abe82c5c3874536c4fb9438e1a76c0a630198fe2d7.PubTator
+Connected by ('127.0.0.1', 38310)
+0it [00:00, ?it/s]1it [00:00, 875.45it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 34.66it/s]
+Response sent for 120898529785ace80a90c6a34477b0497c91621b8aa67e5a6b22f0f3.PubTator
+Connected by ('127.0.0.1', 38324)
+0it [00:00, ?it/s]1it [00:00, 837.86it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.29it/s]
+Response sent for a863b4c155212c13c6dc7b78a66dbadc236150e5854e7ad6dafd3c34.PubTator
+Connected by ('127.0.0.1', 46044)
+0it [00:00, ?it/s]1it [00:00, 940.01it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 42.86it/s]
+Response sent for dfea813b5bf039b384ac104cc18a0547dff18dd604ea71d23f3d9e23.PubTator
+Connected by ('127.0.0.1', 42678)
+0it [00:00, ?it/s]1it [00:00, 754.51it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 38.32it/s]
+Response sent for 19bd08e9f22e6c3824f7bacb49b915819c73f1972dfcb32283cea9f6.PubTator
+Connected by ('127.0.0.1', 52484)
+0it [00:00, ?it/s]1it [00:00, 788.11it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.49it/s]
+Response sent for 5d226bcff34bb0ebfad070b6b566113f06c2a61fb5c4e5e0e3a04554.PubTator
+Connected by ('127.0.0.1', 52498)
+0it [00:00, ?it/s]1it [00:00, 863.20it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.30it/s]
+Response sent for ebc30fd8256840a29eb3943a8246dc7eea3f636de4c5f71631f8aab6.PubTator
+Connected by ('127.0.0.1', 47826)
+0it [00:00, ?it/s]1it [00:00, 876.19it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.16it/s]
+Response sent for 30ff7bb0e9d02c0fd0b0054a9d618d25662339cafc3fcc1442c57182.PubTator
+Connected by ('127.0.0.1', 36918)
+0it [00:00, ?it/s]1it [00:00, 903.17it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 37.85it/s]
+Response sent for 3c499812cd51602e41f4687d1cf95e54a180f6bac1766a346fa82fb4.PubTator
+Connected by ('127.0.0.1', 36930)
+0it [00:00, ?it/s]1it [00:00, 1003.42it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.40it/s]
+Response sent for 47cc34dc232a359bd7aaa4bbf9bd33d9d01ea390f670ec15243ce95e.PubTator
+Connected by ('127.0.0.1', 36622)
+0it [00:00, ?it/s]1it [00:00, 759.15it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.72it/s]
+Response sent for e45ed29fce772186ef533ec31f2161005b7e984dc629bb734fb5b9c8.PubTator
+Connected by ('127.0.0.1', 37568)
+0it [00:00, ?it/s]1it [00:00, 872.54it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.28it/s]
+Response sent for a7a921dccee50b85b93ac89251a0403a566783176a94880b1844daf2.PubTator
+Connected by ('127.0.0.1', 51144)
+0it [00:00, ?it/s]1it [00:00, 1045.96it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 33.46it/s]
+Response sent for f99bca598e5bacb24920109bfe16f52a4adcf0623e42f5f35446745b.PubTator
+Connected by ('127.0.0.1', 51150)
+0it [00:00, ?it/s]1it [00:00, 861.43it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 41.76it/s]
+Response sent for 96fe8a6afa86d95762b56396c5e85bdba1691a5a3d2511612ee22e5e.PubTator
+Connected by ('127.0.0.1', 52992)
+0it [00:00, ?it/s]1it [00:00, 927.74it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.47it/s]
+Response sent for 84f4d162d0889536a392b46f32eebda58db27e58561a3e41e33e4cea.PubTator
+Connected by ('127.0.0.1', 60770)
+0it [00:00, ?it/s]1it [00:00, 939.37it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 41.72it/s]
+Response sent for afc3d09d59021579b48e4819dd3f08295f3dc438f7f2919b06ca317e.PubTator
+Connected by ('127.0.0.1', 60782)
+0it [00:00, ?it/s]1it [00:00, 1020.51it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 39.78it/s]
+Response sent for 525bbc5e481bdaf825bf80725e1ac63c15786fa13120fe734d703c0e.PubTator
+Connected by ('127.0.0.1', 47042)
+0it [00:00, ?it/s]1it [00:00, 908.84it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.39it/s]
+Response sent for 89e92a6963f2179038668173907fc2a79ae48e7712fe3dddfe49dace.PubTator
+Connected by ('127.0.0.1', 50302)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.673 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.648 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 38736)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.682 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 7.581 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 55662)
+0it [00:00, ?it/s]1it [00:00, 262.60it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:05<00:00,  5.13s/it]Prediction: 100%|██████████| 1/1 [00:05<00:00,  5.13s/it]
+Response sent for b5d32e3a13ff4d519235aa93bf6faeaa8e80439b77a08925ae9c617c.PubTator
+Connected by ('127.0.0.1', 46720)
+0it [00:00, ?it/s]1it [00:00, 920.81it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.94it/s]
+BioMedNER init_t 0.687 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.600 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 36148)
+0it [00:00, ?it/s]1it [00:00, 254.39it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.65it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.64it/s]
+BioMedNER init_t 0.699 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.670 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 58876)
+0it [00:00, ?it/s]1it [00:00, 288.45it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.91it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.91it/s]
+Response sent for 7aed0d619cfb7fb7edf932fc5aeff01e489c3be8482e4c08c26f4de3.PubTator
+Connected by ('127.0.0.1', 45774)
+0it [00:00, ?it/s]1it [00:00, 831.71it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.44it/s]
+Response sent for 033058d4b744c965cb1f7c798cc9c1fee136688c7bdd6f191929cd02.PubTator
+Connected by ('127.0.0.1', 45854)
+0it [00:00, ?it/s]1it [00:00, 832.53it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.02it/s]
+Response sent for dc37d57b5508811be20af120757571a6a7725f0d2977f58c84837a7f.PubTator
+Connected by ('127.0.0.1', 60910)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.880 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.647 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 53574)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.655 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.671 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 59480)
+0it [00:00, ?it/s]1it [00:00, 260.69it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.46it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.44it/s]
+Response sent for 729d3f9975787183c5117b5f2a4604e97594352b40aaf9e3688a6823.PubTator
+Connected by ('127.0.0.1', 60886)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.734 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.691 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.617 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 40534)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.677 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Response sent for 61d5392634e0658327dab1a020c904645ec31ef6fbb49b058ee86cdc.PubTator
+Connected by ('127.0.0.1', 49444)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.674 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.632 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 45120)
+0it [00:00, ?it/s]1it [00:00, 248.26it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  2.77it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  2.77it/s]
+Response sent for 37f8a68ed3c820c1c408bb453ec7114e791811a377460d41c3c3ea84.PubTator
+Connected by ('127.0.0.1', 34848)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.686 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.617 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 54440)
+0it [00:00, ?it/s]1it [00:00, 302.01it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.16it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.16it/s]
+Response sent for 801077202e18420c5835e270c0d90333911485e69e231121751d3032.PubTator
+Connected by ('127.0.0.1', 37522)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.701 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.670 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.713 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.635 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 55824)
+0it [00:00, ?it/s]1it [00:00, 258.81it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.72it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  1.72it/s]
+Response sent for 69f6719bd150439e24005d8432c68e39bf31d5fc113a028bfbd91006.PubTator
+Connected by ('127.0.0.1', 45390)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.685 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.658 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 52026)
+0it [00:00, ?it/s]1it [00:00, 253.88it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.20it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.19it/s]
+Response sent for fafdb99975801684a412340ad98293cfe2307e3ab3d7ff0c006eeda5.PubTator
+Connected by ('127.0.0.1', 47256)
+0it [00:00, ?it/s]1it [00:00, 709.34it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00, 32.34it/s]
+Response sent for a0b53db8b2ef91d1ebe9d88002d924aca9ec237b144275572593c32e.PubTator
+Connected by ('127.0.0.1', 34158)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.674 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.630 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 49418)
+0it [00:00, ?it/s]1it [00:00, 289.18it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  4.59it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  4.58it/s]
+Response sent for d48beeca8a07e4059a6bea41aad1a8b7e85c15a578008e7317717b07.PubTator
+Connected by ('127.0.0.1', 44346)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.699 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.617 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 38980)
+0it [00:00, ?it/s]1it [00:00, 271.30it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.45it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.44it/s]
+Response sent for c3ea6a29dbea4a139d96f6135c9c1ddd85a1925ab6b64c8658723b5e.PubTator
+Connected by ('127.0.0.1', 51978)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.716 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.660 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 52322)
+0it [00:00, ?it/s]1it [00:00, 270.16it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  2.32it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  2.32it/s]
+Response sent for 44b8882bc774b330ebd400912695dfee5bd544e2050be5c5ead326ca.PubTator
+Connected by ('127.0.0.1', 60342)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.599 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 55710)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.693 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.642 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 51514)
+0it [00:00, ?it/s]1it [00:00, 300.39it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.99it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  5.97it/s]
+BioMedNER init_t 0.726 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.645 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
