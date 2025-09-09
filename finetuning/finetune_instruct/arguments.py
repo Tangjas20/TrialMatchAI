@@ -85,6 +85,10 @@ class ModelArguments:
         default=False,
         metadata={"help": "If true, uses Unsloth library to optimize finetuning instead of the regular method."}
     )
+    use_vllm: bool = field(
+        default=False,
+        metadata={"help": "If true, uses vLLM for finetuning. Should not be set to true at the same time as Unsloth."}
+    )
     use_4bit: Optional[bool] = field(
         default=False,
         metadata={"help": "Use 4-bit quantization"}
@@ -193,4 +197,9 @@ class SFTTrainingArguments(TrainingArguments):
     bf16: bool = field(
         default=False,
         metadata={"help": "Use bfloat16 precision training."}
+    )
+
+    batch_size: int = field(
+        default=1,
+        metadata={}
     )

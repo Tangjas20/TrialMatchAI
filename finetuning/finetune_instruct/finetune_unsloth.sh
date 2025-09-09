@@ -24,5 +24,5 @@ nohup torchrun --nproc_per_node=1 ./run.py \
   --cache_dir scratch/huggingface_cache/hub \
   --target_modules q_proj k_proj v_proj o_proj gate_proj up_proj down_proj \
   --use_4bit True \
-  --bf16 True \ > ./finetune_log.log
+  --bf16 True > ./finetune_log.log
 #if checkpoint wanted : --resume_from_checkpoint ./finetuned_phi_reasoning_unsloth/checkpoint-example
