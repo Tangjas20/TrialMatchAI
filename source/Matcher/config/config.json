@@ -13,9 +13,9 @@
     "run_script": "biomedner_services/run_biomedner.sh"
   },
   "paths": {
-    "patients_dir": "../example/",
-    "output_dir": "../results/TREC",
-    "trials_json_folder": "../data/trials_jsons",
+    "patients_dir": "../data/processed_trials21.json",
+    "output_dir": "results/TREC",
+    "trials_json_folder": "../data/processed_trials",
     "docker_certs": "../elasticsearch/certs/ca.crt"
   },
   "model": {
@@ -26,9 +26,9 @@
       "bnb_4bit_quant_type": "nf4",
       "bnb_4bit_compute_dtype": "float16"
     },
-    "cot_adapter_path": "models/finetuned_phi_reasoning",
+    "cot_adapter_path": "../models/models/finetuned_phi_reasoning",
     "reranker_model_path": "google/gemma-2-2b-it",
-    "reranker_adapter_path": "models/finetuned_gemma2"
+    "reranker_adapter_path": "../models/models/finetuned_gemma2"
   },
   "tokenizer": {
     "use_fast": true,
@@ -50,7 +50,7 @@
     "model_name": "BAAI/bge-m3"
   },
   "cot": {
-    "batch_size": 10
+    "batch_size": 1
   },
   "LLM_reranker": {
     "batch_size": 20

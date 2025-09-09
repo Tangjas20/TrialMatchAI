@@ -703,7 +703,7 @@ class AblationStudyRunner:
         # Patients file (configurable; fallback to default path)
         patients_file = self.config.get("paths", {}).get(
             "patients_file",
-            "/home/mabdallah/scratch/TrialMatchAI/data/trec/processed_patients21.json",
+            "../data/processed_patients21.json",
         )
         if not os.path.exists(patients_file):
             raise FileNotFoundError(f"Patients file not found: {patients_file}")
@@ -760,6 +760,16 @@ class AblationStudyRunner:
 
         # Iterate patients
         for patient_id, patient_info in patients_to_iterate.items():
+            #translate patient_id to trec-{trec_year}{id}. Ex. P001 -> trec-20211 if Trec 2021
+            if re.fullmatch(r"P\d{3}", patient_id):
+                # get trec year by reading the processed patient file name, if it contains 21 or 22
+                trec_year = "21"  # default
+                if "22" in os.path.basename(patients_file):
+                    trec_year = "22"
+                # Remove leading zeroes from the numeric part of the patient ID
+                patient_number = int(patient_id[1:])  # Convert "001" to 1, "075" to 75, etc.
+                patient_id = f"trec-20{trec_year}{patient_number}"
+
             results_patient_dir = os.path.join(results_root, patient_id)
             create_directory(results_patient_dir)
 
@@ -860,6 +870,11 @@ if __name__ == "__main__":
         runner.config["paths"]["output_dir"] = args.output_dir
     if args.nct_ids_file:
         runner.config["paths"]["nct_ids_file"] = args.nct_ids_file
+
+    # Log GPU name
+    logger.warning(
+        f"Using device: {runner.config['global']['device']} - {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'CPU'}"
+    )
 
     # Normalize patient ids and run
     patient_ids = _normalize_patient_ids(args.patient)

@@ -119,6 +119,7 @@ class BatchTrialProcessor:
                 },
             ]
 
+        logger.warning(f"TEMPLATE CHECK : {hasattr(self.tokenizer, 'apply_chat_template')}")
         if hasattr(self.tokenizer, "apply_chat_template"):
             return self.tokenizer.apply_chat_template(
                 chat, tokenize=False, add_generation_prompt=True
@@ -139,13 +140,33 @@ class BatchTrialProcessor:
             with torch.inference_mode():
                 outputs = self.model.generate(
                     **inputs,
-                    max_new_tokens=5000,
+                    max_new_tokens=1000,
                     do_sample=False,
-                    pad_token_id=self.tokenizer.eos_token_id,
-                )
+                    return_dict_in_generate=True,
+                    output_scores=True,
+                    use_cache=True
+                    )
             decoded_responses = self.tokenizer.batch_decode(
-                outputs[:, inputs.input_ids.shape[1] :], skip_special_tokens=True
+                outputs.sequences[:, inputs.input_ids.shape[1] :], skip_special_tokens=True
             )
+            # log scores
+            max_logged_steps = 20  # limit for readability
+
+            if outputs.scores is not None:
+                scores = torch.stack(outputs.scores, dim=1)
+                probs = torch.softmax(scores, dim=-1)
+                top_probs, top_indices = torch.topk(probs, k=3, dim=-1)
+                for i in range(top_probs.shape[0]):  # batch
+                    logger.info(f"Top token probabilities for item {i}:")
+                    for t in range(min(top_probs.shape[1], max_logged_steps)):  # each generation step
+                        # start from the last steps
+                        t_prime = top_probs.shape[1] - 1 - t
+                        logger.info(f"  Step {t_prime}:")
+                        for prob, idx in zip(top_probs[i, t_prime], top_indices[i, t_prime]):
+                            token = self.tokenizer.decode([idx.item()])
+                            logger.info(f"    Token: {token}, Probability: {prob.item():.4f}")
+
+            logger.warning(f"Decoded response: {decoded_responses}")
             for item, response in zip(batch, decoded_responses):
                 self._save_outputs(item["nct_id"], response, output_folder)
         except Exception as e:
