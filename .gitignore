@@ -6,6 +6,8 @@ utils/finetuning/
 source/models
 source/Parser/resources
 source/Parser/models
+source/Parser/logs
+source/logs
 elasticsearch/sif
 
 # Ignore Python cache files

@@ -9,7 +9,7 @@ fi
 ####################################
 # run NER
 nohup python biomedner_server.py \
-    --model_name_or_path models/finetuned_model_roberta \
+    --model_name_or_path ../../models/models/finetuned_model_roberta \
     --biomedner_port 18894 >> logs/nohup_multi_ner.out 2>&1 &
 
 nohup python gner_server.py \
