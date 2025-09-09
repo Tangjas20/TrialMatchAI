@@ -24,6 +24,9 @@ Thumbs.db
 
 elasticsearch/sif/*.sif
 
-finetuning/*
 models/
-
+finetuning/finetune_instruct/data_dir
+finetuning/finetune_instruct/finetuned_phi_reasoning_unsloth
+finetuning/finetune_instruct/scratch
+finetuning/finetune_instruct/test_checkpoint_save
+finetuning/finetune_instruct/unsloth_compiled_cache
