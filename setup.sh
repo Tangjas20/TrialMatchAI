@@ -108,9 +108,9 @@ fi
 cd ..
 
 # Extract resources
-info "Extracting resources into src/Parser..."
-mkdir -p src/Parser
-tar -xzvf data/"$RESOURCES_ARCHIVE" -C src/Parser
+info "Extracting resources into source/Parser..."
+mkdir -p source/Parser
+tar -xzvf data/"$RESOURCES_ARCHIVE" -C source/Parser
 
 info "Extracting models into models/..."
 mkdir -p models
@@ -141,7 +141,7 @@ fi
 cd ..
 
 # 4) Launch indexers in background
-cd src/Indexer
+cd utils/Indexer
 info "Starting index_criteria.py (trials_eligibility) ..."
 nohup python index_criteria.py \
   --config           config.json \
