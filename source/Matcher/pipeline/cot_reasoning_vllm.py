@@ -1,83 +1,63 @@
+# Matcher/pipeline/cot_reasoning_vllm.py
+from __future__ import annotations
+
 import json
 import os
 import time
-from typing import Dict, List
+from typing import Dict, List, Optional
 
-import torch
 from Matcher.utils.file_utils import read_json_file, write_json_file, write_text_file
 from Matcher.utils.logging_config import setup_logging
 from tqdm import tqdm
+from vllm import LLM, SamplingParams
+
+try:
+    # Present in vLLM when LoRA is enabled
+    from vllm.lora.request import LoRARequest  # type: ignore
+except Exception:  # pragma: no cover
+    LoRARequest = None  # type: ignore
 
 logger = setup_logging()
 
 
-class BatchTrialProcessor:
+class BatchTrialProcessorVLLM:
     def __init__(
         self,
-        model,
-        tokenizer,
-        device: int,
-        batch_size: int = 4,
+        llm: LLM,
+        tokenizer=None,
+        batch_size: int = 16,
         use_cot: bool = True,
-        max_new_tokens: int = 5000,  # keep long answers
+        max_new_tokens: int = 5000,
+        temperature: float = 0.0,
+        top_p: float = 1.0,
+        seed: Optional[int] = 1234,
+        length_bucket: bool = True,
+        lora_request: Optional[LoRARequest] = None,  # type: ignore
     ):
         """
-        Optimized for throughput while preserving long outputs.
-
-        Key improvements:
-        - model.eval(), use_cache, TF32 hints, and SDPA/FlashAttention2 when available
-        - length bucketing (sort by prompt token length) to reduce padding waste
-        - telemetry for tokens/sec and stage timings
+        vLLM-backed trial processor for CoT eligibility evaluation.
+        - Keeps long outputs (no custom stop).
+        - Uses chat templates if tokenizer supports them.
+        - Supports optional LoRA adapter via vLLM's LoRARequest.
         """
-        self.device = device
-        self.device_str = f"cuda:{device}"
+        self.llm = llm
+        self.tokenizer = tokenizer or getattr(self.llm, "get_tokenizer", lambda: None)()
         self.batch_size = batch_size
-        self.model = model
-        self.tokenizer = tokenizer
         self.use_cot = use_cot
         self.max_new_tokens = max_new_tokens
+        self.temperature = temperature
+        self.top_p = top_p
+        self.seed = seed
+        self.length_bucket = length_bucket
+        self.lora_request = lora_request  # NEW
 
-        # ---- Inference-time performance knobs (safe if available) ----
-        self.model.eval()
-        try:
-            # Allow TF32 on Ampere+ (gives a free speedup for matmuls with minimal accuracy loss)
-            torch.backends.cuda.matmul.allow_tf32 = True
-            torch.set_float32_matmul_precision("high")
-        except Exception:
-            pass
-
-        # Prefer fast attention kernels if supported by your install
-        try:
-            from transformers.utils.import_utils import is_flash_attn_2_available
-
-            if hasattr(self.model, "config"):
-                if is_flash_attn_2_available():
-                    self.model.config.attn_implementation = "flash_attention_2"
-                else:
-                    # SDPA is the PyTorch fused attention (fast on recent torch)
-                    self.model.config.attn_implementation = "sdpa"
-        except Exception:
-            # Fall back silently; HF will pick the best available
-            pass
-
-        # Ensure caching is on for generation
-        try:
-            if hasattr(self.model, "config") and hasattr(
-                self.model.config, "use_cache"
-            ):
-                self.model.config.use_cache = True
-        except Exception:
-            pass
-
-        # Pad token handling (avoids warnings for decoder-only models)
-        try:
-            if (
-                self.tokenizer.pad_token_id is None
-                and self.tokenizer.eos_token_id is not None
-            ):
-                self.tokenizer.pad_token = self.tokenizer.eos_token
-        except Exception:
-            pass
+        self.sampling_params = SamplingParams(
+            max_tokens=self.max_new_tokens,
+            temperature=self.temperature,
+            top_p=self.top_p,
+            seed=self.seed,
+            detokenize=True,
+        )
 
     # ---------------------- I/O helpers ----------------------
 
@@ -183,77 +163,60 @@ class BatchTrialProcessor:
                 },
             ]
 
-        if hasattr(self.tokenizer, "apply_chat_template"):
+        if self.tokenizer is not None and hasattr(
+            self.tokenizer, "apply_chat_template"
+        ):
             return self.tokenizer.apply_chat_template(
                 chat, tokenize=False, add_generation_prompt=True
             )
-        # Fallback: simple concatenation
+
         system_part = f"{chat[0]['content']}\n\n"
         user_part = f"{chat[1]['content']}\n\n"
         return system_part + user_part + "Answer: "
 
-    # ---------------------- Core batch path ----------------------
+    # ---------------------- Core batch path (vLLM) ----------------------
 
     def _process_batch(self, batch: List[Dict], output_folder: str):
-        """
-        Expects a list of dicts with keys: nct_id, prompt
-        """
         try:
+            prompts = [item["prompt"] for item in batch]
             t0 = time.time()
-            # Tokenize once; pad to the longest in this batch only
-            tokenized = self.tokenizer(
-                [item["prompt"] for item in batch],
-                padding=True,
-                truncation=True,  # keep to model max length to avoid OOM
-                return_tensors="pt",
+            # Pass LoRARequest if provided (activates adapter)
+            results = self.llm.generate(
+                prompts,
+                self.sampling_params,
+                lora_request=self.lora_request,  # NEW
             )
-            input_len = tokenized["input_ids"].shape[1]
-            tokenized = tokenized.to(self.device_str)
             t1 = time.time()
 
-            # Autocast to model dtype if it's half/bfloat16 for extra speed
-            model_dtype = next(self.model.parameters()).dtype
-            use_autocast = model_dtype in (torch.float16, torch.bfloat16)
+            decoded_responses: List[str] = []
+            in_tok_lens: List[int] = []
+            out_tok_lens: List[int] = []
 
-            with torch.inference_mode():
-                ctx = (
-                    torch.autocast(device_type="cuda", dtype=model_dtype)
-                    if use_autocast
-                    else torch.cuda.amp.autocast(enabled=False)
-                )
-                with ctx:
-                    outputs = self.model.generate(
-                        **tokenized,
-                        max_new_tokens=self.max_new_tokens,  # long answers kept
-                        do_sample=False,
-                        use_cache=True,
-                        pad_token_id=self.tokenizer.pad_token_id
-                        if self.tokenizer.pad_token_id is not None
-                        else self.tokenizer.eos_token_id,
-                        eos_token_id=self.tokenizer.eos_token_id,
-                        num_return_sequences=1,
-                        return_dict_in_generate=False,
+            for r in results:
+                text = r.outputs[0].text if r.outputs else ""
+                decoded_responses.append(text)
+                try:
+                    in_tok_lens.append(len(getattr(r, "prompt_token_ids", []) or []))
+                except Exception:
+                    in_tok_lens.append(0)
+                try:
+                    out_tok_lens.append(
+                        len(getattr(r.outputs[0], "token_ids", []) or [])
                     )
-            t2 = time.time()
+                except Exception:
+                    out_tok_lens.append(0)
 
-            # Decode only the generated tail
-            gen_len = outputs.shape[1] - input_len
-            decoded_responses = self.tokenizer.batch_decode(
-                outputs[:, input_len:], skip_special_tokens=True
-            )
-
-            # Persist outputs
             for item, response in zip(batch, decoded_responses):
                 self._save_outputs(item["nct_id"], response, output_folder)
 
-            # Telemetry
-            total_gen_tokens = gen_len * len(batch)
-            gen_time = t2 - t1
+            total_in = sum(in_tok_lens)
+            total_out = sum(out_tok_lens)
+            gen_time = max(1e-6, t1 - t0)
             logger.info(
-                f"[GPU {self.device}] batch={len(batch)} | in_len={input_len} | "
-                f"out_len≈{gen_len} | tokenize+H2D={t1 - t0:.2f}s | "
-                f"generate={gen_time:.2f}s | ~{(total_gen_tokens / gen_time) if gen_time > 0 else 0:.1f} tok/s"
+                f"[vLLM] batch={len(batch)} | in_tok≈{total_in} | out_tok≈{total_out} | "
+                f"elapsed={gen_time:.2f}s | ~{(total_out / gen_time):.1f} tok/s"
             )
+
         except Exception as e:
             logger.error(f"Batch processing failed: {str(e)}")
             for item in batch:
@@ -267,7 +230,6 @@ class BatchTrialProcessor:
             txt_path = f"{output_folder}/{nct_id}.txt"
             write_text_file([response], txt_path)
             try:
-                # naive JSON slice (you may replace with a balanced-brace parser if needed)
                 start = response.find("{")
                 end = response.rfind("}")
                 if start != -1 and end != -1 and end > start:
@@ -291,30 +253,28 @@ class BatchTrialProcessor:
         output_folder: str,
         patient_profile: List[str],
     ):
-        """
-        Length-buckets all prompts to reduce padding overhead, then processes in batches.
-        Keeps existing outputs (idempotent resume).
-        """
         patient_text = " ".join(
             str(line).strip() for line in patient_profile if str(line).strip()
         )
 
-        # Build worklist, skipping already-processed trials
         items: List[Dict] = []
         for nct_id in nct_ids:
             output_path = f"{output_folder}/{nct_id}.json"
             if os.path.exists(output_path):
                 logger.info(f"Skipping existing: {nct_id}")
                 continue
+
             criteria_text = self._load_trial_data(nct_id, json_folder)
             prompt = self._format_prompt(criteria_text, patient_text)
 
-            # Measure token length once for bucketing (no truncation here)
-            try:
-                tok = self.tokenizer(prompt, add_special_tokens=False)
-                tok_len = len(tok["input_ids"])
-            except Exception:
-                # Fallback: rough char-based estimate if tokenizer hiccups
+            if self.length_bucket and self.tokenizer is not None:
+                try:
+                    tok_len = len(
+                        self.tokenizer(prompt, add_special_tokens=False)["input_ids"]
+                    )
+                except Exception:
+                    tok_len = max(1, len(prompt) // 4)
+            else:
                 tok_len = max(1, len(prompt) // 4)
 
             items.append({"nct_id": nct_id, "prompt": prompt, "tok_len": tok_len})
@@ -323,13 +283,11 @@ class BatchTrialProcessor:
             logger.info("No work to do.")
             return
 
-        # Sort by length (ascending) => minimal padding inside batches
-        items.sort(key=lambda x: x["tok_len"])
+        if self.length_bucket:
+            items.sort(key=lambda x: x["tok_len"])
 
-        # Process in batches
         for i in tqdm(
-            range(0, len(items), self.batch_size),
-            desc=f"GPU {self.device} Processing Trials",
+            range(0, len(items), self.batch_size), desc="vLLM Processing Trials"
         ):
             batch = items[i : i + self.batch_size]
             self._process_batch(batch, output_folder)

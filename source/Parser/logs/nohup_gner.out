@@ -994,3 +994,212 @@ Traceback (most recent call last):
   File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
     s.bind((host, port))
 OSError: [Errno 98] Address already in use
+                                                                                                                                                                        Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 189.72it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 6665.03it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+2025-08-28 10:52:53,110 - INFO - Connection accepted from ('127.0.0.1', 48256)
+2025-08-28 10:52:53,110 - INFO - Received data: {"biomedner_home": "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser", "inputfile": "03da14bdd5e112af67e8c6f7a3bd0d6d15e72f411d309a35cd0743bf.PubTator"}
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 112.06it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5295.84it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+2025-08-28 13:34:55,046 - INFO - Connection accepted from ('127.0.0.1', 33522)
+2025-08-28 13:34:55,047 - ERROR - An error occurred: unpack requires a buffer of 2 bytes
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 111.73it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 4454.92it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files:  10%|█         | 1/10 [00:00<00:00,  9.82it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 97.44it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 7018.58it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5454.23it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 16677.15it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5119.38it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 18086.69it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+2025-08-28 14:02:04,360 - INFO - Connection accepted from ('127.0.0.1', 56596)
+2025-08-28 14:02:04,360 - ERROR - An error occurred: unpack requires a buffer of 2 bytes
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 13551.87it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5140.08it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 7217.87it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 4528.51it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 10680.68it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 4946.11it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5527.55it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 12710.01it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 9281.49it/s]
+2025-08-28 14:17:21,726 - INFO - Server started on localhost:18783
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 5328.81it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 29683.68it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 111.03it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 16690.43it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 12501.65it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 67541.13it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 8918.36it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+Fetching 10 files:   0%|          | 0/10 [00:00<?, ?it/s]Fetching 10 files: 100%|██████████| 10/10 [00:00<00:00, 8313.78it/s]
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 206, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/gner_server.py", line 177, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+2025-08-28 14:51:47,736 - INFO - Connection accepted from ('127.0.0.1', 55280)
+2025-08-28 14:51:47,736 - INFO - Received data: {"biomedner_home": "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser", "inputfile": "8c3f822074eb06ba00fd145e2f869875b420538754f89f5808d5fd4e.PubTator"}
+Asking to truncate to max_length but no maximum length is provided and the model has no predefined maximum length. Default to no truncation.
+2025-08-29 11:27:26,489 - INFO - Connection accepted from ('127.0.0.1', 59964)
+2025-08-29 11:27:26,499 - ERROR - An error occurred: unpack requires a buffer of 2 bytes

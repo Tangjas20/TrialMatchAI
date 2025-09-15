@@ -9,9 +9,6 @@ import torch
 import torch.nn.functional as F
 from transformers import AutoModel, AutoTokenizer
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Logging
-# ──────────────────────────────────────────────────────────────────────────────
 logging.basicConfig(
     format="%(asctime)s %(levelname)s %(name)s - %(message)s",
     level=logging.INFO,
@@ -19,9 +16,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Embedder
-# ──────────────────────────────────────────────────────────────────────────────
 class SentenceEmbedder:
     def __init__(self, model_name: str = "BAAI/bge-m3", use_gpu: bool = True):
         self.device = torch.device(
@@ -56,9 +50,6 @@ class SentenceEmbedder:
         return vecs.cpu().tolist()
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Helpers
-# ──────────────────────────────────────────────────────────────────────────────
 def compute_criteria_id(nct_id: str, criterion: str) -> str:
     """
     Deterministically hash a trial‑criterion pair to a 64‑hex string.
@@ -70,9 +61,6 @@ def load_raw_trial(path: Path) -> dict:
     return json.loads(path.read_text())
 
 
-# ──────────────────────────────────────────────────────────────────────────────
-# Main processing
-# ──────────────────────────────────────────────────────────────────────────────
 def process_trial(
     nct_id: str,
     source_folder: Path,
