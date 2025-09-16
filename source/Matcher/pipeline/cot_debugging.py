@@ -18,8 +18,6 @@ def debug_cot_reasoning(
 ):
     """Debug CoT reasoning with a small set of trials."""
 
-    logger.warning(f"Model CACHE : {os.environ['TRANSFORMERS_CACHE']}")  # Check if the environment variable is set correctly
-
     # Construct patient profile
     patient_profile = (
         patient_info.get("split_raw_description")
@@ -38,15 +36,6 @@ def debug_cot_reasoning(
     logger.info("Loading model and tokenizer...")
     model, tokenizer = load_model_and_tokenizer(config["model"], config["global"]["device"])
     logger.info("Model and tokenizer loaded successfully.")
-
-    """ # if last two don't match, set config to tokenizer
-    if model.config.eos_token_id != tokenizer.eos_token_id:
-        model.config.eos_token_id = tokenizer.convert_tokens_to_ids(tokenizer.eos_token)
-    if model.config.pad_token_id != tokenizer.pad_token_id:
-        model.config.pad_token_id = tokenizer.eos_token_id
-
-    logger.info(f"Config EOS: {model.config.eos_token_id}")
-    logger.info(f"Config PAD: {model.config.pad_token_id}") """
 
     model.eval()
     print(f"Model training mode: {model.training}")

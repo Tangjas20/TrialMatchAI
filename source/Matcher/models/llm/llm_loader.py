@@ -130,39 +130,4 @@ def load_model_and_tokenizer(
             "Tokenizer and model EOS token IDs do not match! This may be the problem!!!."
         )
 
-
-    # debugging tests
-    logger.warning('######## DEBUGGING TESTS ########')
-    logger.warning(f"TEMPLATE CHECK : {hasattr(tokenizer, 'apply_chat_template')}")
-    logger.warning(f"Tokenizer vocab size: {len(tokenizer)}")
-    logger.warning(f"Model vocab size: {model.config.vocab_size}")
-    logger.warning(tokenizer.special_tokens_map)
-    logger.warning(tokenizer.all_special_tokens)
-    logger.warning(tokenizer.convert_tokens_to_ids(tokenizer.all_special_tokens))
-
-
-    inputs = tokenizer("Hello, this is a test.", return_tensors="pt").to(model.device)
-    
-    with torch.inference_mode():
-        outputs = model.generate(
-            **inputs,
-            max_new_tokens=400,
-            do_sample=False,
-            eos_token_id=tokenizer.eos_token_id,
-            pad_token_id=tokenizer.pad_token_id,
-            return_dict_in_generate=True,
-            output_hidden_states=True,
-        )
-
-    # Grab hidden states of the last step
-    last_hidden_states = outputs.hidden_states[-1][0]  # [batch, seq, hidden_dim]
-
-    logger.warning(f"Hidden states shape:{last_hidden_states.shape}" )
-    logger.warning(f"Norms of all tokens:{last_hidden_states.norm(dim=-1)} ")
-    logger.warning(f"Sample generation: {tokenizer.decode(outputs.sequences[0])}")
-    logger.warning('######## END DEBUGGING TESTS ########')
-
-    #stop script here for debugging
-    import sys; sys.exit(0)
-
     return model, tokenizer
