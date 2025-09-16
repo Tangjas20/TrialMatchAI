@@ -10,7 +10,7 @@ logger = setup_logging()
 def load_trial_data(json_folder: str) -> List[Dict]:
     trial_data = []
     for file_name in os.listdir(json_folder):
-        if file_name.endswith(".json"):
+        if file_name.endswith(".json") and file_name.startswith("NCT"):
             file_path = os.path.join(json_folder, file_name)
             trial_id = os.path.splitext(file_name)[0]
             try:
