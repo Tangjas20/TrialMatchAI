@@ -10,9 +10,10 @@ class QueryEmbedder:
         model_name: str = "ncbi/MedCPT-Query-Encoder",
         max_length: int = 512,
         use_gpu: bool = True,
+        device_id: int = 0,
     ):
         self.device = torch.device(
-            "cuda" if use_gpu and torch.cuda.is_available() else "cpu"
+            f"cuda:{device_id}" if use_gpu and torch.cuda.is_available() else "cpu"
         )
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = AutoModel.from_pretrained(model_name).to(self.device)

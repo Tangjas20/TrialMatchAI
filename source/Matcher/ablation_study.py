@@ -188,10 +188,12 @@ class AblationStudyRunner:
 
         # Embedders + NER
         self.first_level_embedder = QueryEmbedder(
-            model_name=self.config["embedder"]["model_name"]
+            model_name=self.config["embedder"]["model_name"],
+            device_id=self.config["global"]["device"],
         )
         self.second_level_embedder = SecondLevelSentenceEmbedder(
-            model_name=self.config["embedder"]["model_name"]
+            model_name=self.config["embedder"]["model_name"],
+            device_id=self.config["global"]["device"],
         )
         self.bio_med_ner = (
             BioMedNER(**self.config["bio_med_ner"])

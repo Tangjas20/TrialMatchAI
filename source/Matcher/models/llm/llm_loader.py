@@ -94,12 +94,14 @@ def load_model_and_tokenizer(
         model_config["base_model"],
         trust_remote_code=True,
         torch_dtype=compute_dtype if use_cuda else torch.float32,
-        device_map=device_str,
+        device_map=None,
         attn_implementation=attn_impl,
         quantization_config=quant_config,
         low_cpu_mem_usage=True,
         local_files_only=True
     )
+    model.to(device_str)  # Explicitly move the model to the desired device
+
     # Ensure KV cache usage for faster generation
     try:
         model.config.use_cache = True
@@ -107,8 +109,9 @@ def load_model_and_tokenizer(
         pass
 
     model = PeftModel.from_pretrained(
-        model, model_config["cot_adapter_path"], device_map=device_str
+        model, model_config["cot_adapter_path"], device_map=None
     )
+    model.to(device_str)  # Ensure PEFT model is also on the correct device
 
     # Optional: compile for extra speed when supported
     if bool(model_config.get("compile", False)):

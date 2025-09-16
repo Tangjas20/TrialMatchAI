@@ -110,6 +110,9 @@ class LLMReranker:
         ]
 
     def process_batch(self, batch: List[tuple]) -> List[Dict]:
+        # Set device context for this thread
+        device_idx = int(self.device_str.split(':')[1])
+        torch.cuda.set_device(device_idx)
         batch_prompts = []
         for patient_text, trial_text in batch:
             messages = self.create_messages(
