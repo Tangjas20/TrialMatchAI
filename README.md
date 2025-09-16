@@ -25,6 +25,7 @@ At this stage, TrialMatchAI is still under active development and largely a **pr
 
 - **OS**: Linux or macOS
 - **Docker & Docker Compose**: For running the Elasticsearch container
+- **Java**: For running the NER and Normalization
 - **Python**: ≥ 3.8
 - **GPU**: NVIDIA (e.g., H100) with ≥ 60 GB VRAM (recommended for large-scale processing)
 - **Disk Space**: ≥ 100 GB free (for data and indices)
