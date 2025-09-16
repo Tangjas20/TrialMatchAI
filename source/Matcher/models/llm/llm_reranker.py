@@ -79,7 +79,7 @@ class LLMReranker:
             self.model_path,
             torch_dtype=self.torch_dtype if use_cuda else torch.float32,
             quantization_config=quant_config,
-            device_map="auto" if use_cuda else None,
+            device_map=None, #avoid auto to control device placement manually
             attn_implementation="flash_attention_2" if use_cuda else None,
             trust_remote_code=True,
         )
