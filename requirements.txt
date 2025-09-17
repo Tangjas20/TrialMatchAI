@@ -14,7 +14,7 @@ peft==0.15.2
 einops==0.8.0
 tiktoken==0.8.0
 bitsandbytes==0.46.1
-
+vllm==0.10.1.1
 # Classical stack & utilities
 numpy==1.26.4
 scipy==1.15.1
