@@ -1,4 +1,3 @@
-# Matcher/pipeline/cot_reasoning_vllm.py
 from __future__ import annotations
 
 import json
@@ -9,6 +8,7 @@ from typing import Dict, List, Optional
 from Matcher.utils.file_utils import read_json_file, write_json_file, write_text_file
 from Matcher.utils.logging_config import setup_logging
 from tqdm import tqdm
+
 from vllm import LLM, SamplingParams
 
 try:
@@ -49,7 +49,9 @@ class BatchTrialProcessorVLLM:
         self.top_p = top_p
         self.seed = seed
         self.length_bucket = length_bucket
-        self.lora_request = lora_request  # NEW
+
+        # Validate LoRA request during initialization
+        self.lora_request = self._init_validate_lora_request(lora_request)
 
         self.sampling_params = SamplingParams(
             max_tokens=self.max_new_tokens,
@@ -58,6 +60,42 @@ class BatchTrialProcessorVLLM:
             seed=self.seed,
             detokenize=True,
         )
+
+    def _init_validate_lora_request(self, lora_request):
+        """Validate LoRA request during initialization."""
+        if lora_request is None:
+            return None
+
+        try:
+            # Check if LoRARequest has the expected attributes and types
+            if hasattr(lora_request, "lora_int_id"):
+                lora_int_id = getattr(lora_request, "lora_int_id")
+
+                if isinstance(lora_int_id, str):
+                    try:
+                        fixed_id = int(lora_int_id)
+                        logger.warning(
+                            f"Fixed lora_int_id during init: '{lora_int_id}' -> {fixed_id}"
+                        )
+                        setattr(lora_request, "lora_int_id", fixed_id)
+                    except (ValueError, AttributeError) as e:
+                        logger.error(f"Cannot fix lora_int_id during init: {e}")
+                        logger.warning("Disabling LoRA due to invalid lora_int_id")
+                        return None
+                elif not isinstance(lora_int_id, int):
+                    logger.error(
+                        f"lora_int_id has invalid type during init: {type(lora_int_id)}"
+                    )
+                    logger.warning("Disabling LoRA due to invalid lora_int_id type")
+                    return None
+
+            logger.info("LoRA request validated successfully")
+            return lora_request
+
+        except Exception as e:
+            logger.error(f"Error validating LoRARequest during init: {e}")
+            logger.warning("Disabling LoRA due to validation error")
+            return None
 
     # ---------------------- I/O helpers ----------------------
 
@@ -180,47 +218,178 @@ class BatchTrialProcessorVLLM:
         try:
             prompts = [item["prompt"] for item in batch]
             t0 = time.time()
-            # Pass LoRARequest if provided (activates adapter)
-            results = self.llm.generate(
-                prompts,
-                self.sampling_params,
-                lora_request=self.lora_request,  # NEW
-            )
+
+            # Log batch info for debugging
+            logger.debug(f"Processing batch with {len(prompts)} prompts")
+
+            # Validate and safely pass LoRARequest
+            safe_lora_request = self._validate_lora_request()
+
+            # Generate with proper error handling for LoRA issues
+            try:
+                results = self.llm.generate(
+                    prompts,
+                    self.sampling_params,
+                    lora_request=safe_lora_request,
+                )
+            except TypeError as e:
+                if "not supported between instances of 'str' and 'int'" in str(e):
+                    logger.warning(f"LoRA configuration issue detected: {e}")
+                    logger.warning("Retrying without LoRA request...")
+                    # Retry without LoRA
+                    results = self.llm.generate(
+                        prompts,
+                        self.sampling_params,
+                        lora_request=None,
+                    )
+                else:
+                    raise
+
             t1 = time.time()
 
             decoded_responses: List[str] = []
             in_tok_lens: List[int] = []
             out_tok_lens: List[int] = []
 
-            for r in results:
-                text = r.outputs[0].text if r.outputs else ""
-                decoded_responses.append(text)
+            for i, r in enumerate(results):
                 try:
-                    in_tok_lens.append(len(getattr(r, "prompt_token_ids", []) or []))
-                except Exception:
+                    text = r.outputs[0].text if r.outputs else ""
+                    decoded_responses.append(text)
+
+                    # Safely extract input token count
+                    try:
+                        prompt_token_ids = getattr(r, "prompt_token_ids", []) or []
+                        if isinstance(prompt_token_ids, (list, tuple)):
+                            in_tok_count = len(prompt_token_ids)
+                        elif hasattr(prompt_token_ids, "__len__"):
+                            in_tok_count = len(prompt_token_ids)
+                        else:
+                            logger.warning(
+                                f"Unexpected prompt_token_ids type for result {i}: {type(prompt_token_ids)}"
+                            )
+                            in_tok_count = 0
+                        in_tok_lens.append(int(in_tok_count))
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to get input token count for result {i}: {e}"
+                        )
+                        in_tok_lens.append(0)
+
+                    # Safely extract output token count
+                    try:
+                        if r.outputs and len(r.outputs) > 0:
+                            output_token_ids = (
+                                getattr(r.outputs[0], "token_ids", []) or []
+                            )
+                            if isinstance(output_token_ids, (list, tuple)):
+                                out_tok_count = len(output_token_ids)
+                            elif hasattr(output_token_ids, "__len__"):
+                                out_tok_count = len(output_token_ids)
+                            else:
+                                logger.warning(
+                                    f"Unexpected output token_ids type for result {i}: {type(output_token_ids)}"
+                                )
+                                out_tok_count = 0
+                            out_tok_lens.append(int(out_tok_count))
+                        else:
+                            out_tok_lens.append(0)
+                    except Exception as e:
+                        logger.warning(
+                            f"Failed to get output token count for result {i}: {e}"
+                        )
+                        out_tok_lens.append(0)
+
+                except Exception as e:
+                    logger.error(f"Failed to process result {i}: {e}")
+                    decoded_responses.append("")
                     in_tok_lens.append(0)
-                try:
-                    out_tok_lens.append(
-                        len(getattr(r.outputs[0], "token_ids", []) or [])
-                    )
-                except Exception:
                     out_tok_lens.append(0)
 
+            # Save outputs
             for item, response in zip(batch, decoded_responses):
                 self._save_outputs(item["nct_id"], response, output_folder)
 
-            total_in = sum(in_tok_lens)
-            total_out = sum(out_tok_lens)
-            gen_time = max(1e-6, t1 - t0)
-            logger.info(
-                f"[vLLM] batch={len(batch)} | in_tok≈{total_in} | out_tok≈{total_out} | "
-                f"elapsed={gen_time:.2f}s | ~{(total_out / gen_time):.1f} tok/s"
-            )
+            # Safely calculate totals
+            try:
+                # Ensure all values are integers before summing
+                safe_in_tok_lens = [
+                    int(x)
+                    if isinstance(x, (int, float, str))
+                    and str(x).replace(".", "").isdigit()
+                    else 0
+                    for x in in_tok_lens
+                ]
+                safe_out_tok_lens = [
+                    int(x)
+                    if isinstance(x, (int, float, str))
+                    and str(x).replace(".", "").isdigit()
+                    else 0
+                    for x in out_tok_lens
+                ]
+
+                total_in = sum(safe_in_tok_lens)
+                total_out = sum(safe_out_tok_lens)
+                gen_time = max(1e-6, t1 - t0)
+
+                logger.info(
+                    f"[vLLM] batch={len(batch)} | in_tok≈{total_in} | out_tok≈{total_out} | "
+                    f"elapsed={gen_time:.2f}s | ~{(total_out / gen_time):.1f} tok/s"
+                )
+            except Exception as e:
+                logger.error(f"Failed to calculate token statistics: {e}")
+                logger.info(f"[vLLM] batch={len(batch)} completed (stats unavailable)")
 
         except Exception as e:
             logger.error(f"Batch processing failed: {str(e)}")
+            import traceback
+
+            logger.error(f"Full traceback: {traceback.format_exc()}")
             for item in batch:
                 logger.error(f"Failed trial: {item['nct_id']}")
+                # Create empty output files so processing can continue
+                try:
+                    self._save_outputs(
+                        item["nct_id"], '{"error": "processing_failed"}', output_folder
+                    )
+                except Exception as save_e:
+                    logger.error(
+                        f"Failed to save error output for {item['nct_id']}: {save_e}"
+                    )
+
+    def _validate_lora_request(self):
+        """Validate and fix LoRARequest to prevent vLLM type errors."""
+        if self.lora_request is None:
+            return None
+
+        try:
+            # Check if LoRARequest has the expected attributes
+            if hasattr(self.lora_request, "lora_int_id"):
+                lora_int_id = getattr(self.lora_request, "lora_int_id")
+
+                # Fix string lora_int_id by converting to int
+                if isinstance(lora_int_id, str):
+                    try:
+                        fixed_id = int(lora_int_id)
+                        logger.warning(
+                            f"Converting lora_int_id from string '{lora_int_id}' to int {fixed_id}"
+                        )
+                        # Try to set the corrected value
+                        setattr(self.lora_request, "lora_int_id", fixed_id)
+                    except (ValueError, AttributeError) as e:
+                        logger.error(f"Failed to fix lora_int_id: {e}")
+                        logger.warning("Disabling LoRA due to invalid lora_int_id")
+                        return None
+                elif not isinstance(lora_int_id, int):
+                    logger.error(f"lora_int_id has invalid type: {type(lora_int_id)}")
+                    logger.warning("Disabling LoRA due to invalid lora_int_id type")
+                    return None
+
+            return self.lora_request
+
+        except Exception as e:
+            logger.error(f"Error validating LoRARequest: {e}")
+            logger.warning("Disabling LoRA due to validation error")
+            return None
 
     # ---------------------- Persistence ----------------------
 
@@ -267,15 +436,8 @@ class BatchTrialProcessorVLLM:
             criteria_text = self._load_trial_data(nct_id, json_folder)
             prompt = self._format_prompt(criteria_text, patient_text)
 
-            if self.length_bucket and self.tokenizer is not None:
-                try:
-                    tok_len = len(
-                        self.tokenizer(prompt, add_special_tokens=False)["input_ids"]
-                    )
-                except Exception:
-                    tok_len = max(1, len(prompt) // 4)
-            else:
-                tok_len = max(1, len(prompt) // 4)
+            # Calculate token length with comprehensive type safety
+            tok_len = self._safe_calculate_token_length(prompt, nct_id)
 
             items.append({"nct_id": nct_id, "prompt": prompt, "tok_len": tok_len})
 
@@ -283,11 +445,125 @@ class BatchTrialProcessorVLLM:
             logger.info("No work to do.")
             return
 
+        # Validate all tok_len values before sorting
+        self._validate_token_lengths(items)
+
+        # Sort by token length if length_bucket is enabled
         if self.length_bucket:
-            items.sort(key=lambda x: x["tok_len"])
+            try:
+                items.sort(key=lambda x: x["tok_len"])
+                logger.debug(f"Successfully sorted {len(items)} items by token length")
+            except Exception as e:
+                logger.error(f"Failed to sort items by token length: {str(e)}")
+                # Log the problematic items for debugging
+                for i, item in enumerate(items):
+                    logger.error(
+                        f"Item {i}: nct_id={item['nct_id']}, tok_len={item['tok_len']}, type={type(item['tok_len'])}"
+                    )
+                # Disable length bucketing and continue without sorting
+                logger.warning("Disabling length bucketing due to sorting failure")
+                pass
 
         for i in tqdm(
             range(0, len(items), self.batch_size), desc="vLLM Processing Trials"
         ):
             batch = items[i : i + self.batch_size]
             self._process_batch(batch, output_folder)
+
+    def _safe_calculate_token_length(self, prompt: str, nct_id: str) -> int:
+        """Safely calculate token length using vLLM's tokenizer."""
+        # Default fallback based on character count
+        fallback_length = max(1, len(prompt) // 4)
+
+        if not self.length_bucket:
+            return fallback_length
+
+        try:
+            # Try to use vLLM's built-in tokenizer first
+            if hasattr(self.llm, "get_tokenizer"):
+                vllm_tokenizer = self.llm.get_tokenizer()
+                if vllm_tokenizer is not None:
+                    try:
+                        # vLLM tokenizers often have an encode method
+                        if hasattr(vllm_tokenizer, "encode"):
+                            token_ids = vllm_tokenizer.encode(prompt)
+                            if isinstance(token_ids, (list, tuple)) or hasattr(
+                                token_ids, "__len__"
+                            ):
+                                return int(len(token_ids))
+                        elif hasattr(vllm_tokenizer, "__call__"):
+                            # Fallback to callable tokenizer
+                            result = vllm_tokenizer(prompt, add_special_tokens=False)
+                            return self._extract_token_length(result, nct_id)
+                    except Exception as e:
+                        logger.warning(f"vLLM tokenizer failed for {nct_id}: {e}")
+
+            # Fallback to the provided tokenizer
+            if self.tokenizer is not None:
+                tokenized = self.tokenizer(prompt, add_special_tokens=False)
+                return self._extract_token_length(tokenized, nct_id)
+
+            return fallback_length
+
+        except Exception as e:
+            logger.warning(
+                f"All tokenization methods failed for {nct_id}: {str(e)}, using character-based estimate"
+            )
+            return fallback_length
+
+    def _extract_token_length(self, tokenized, nct_id: str) -> int:
+        """Extract token length from various tokenizer output formats."""
+        fallback_length = max(1, len(str(tokenized)) // 4)
+
+        # Try different extraction methods
+        extraction_methods = [
+            lambda x: len(x["input_ids"])
+            if isinstance(x, dict) and "input_ids" in x
+            else None,
+            lambda x: len(x.input_ids) if hasattr(x, "input_ids") else None,
+            lambda x: len(x) if isinstance(x, (list, tuple)) else None,
+            lambda x: len(x)
+            if hasattr(x, "__len__") and not isinstance(x, (str, dict))
+            else None,
+        ]
+
+        for method in extraction_methods:
+            try:
+                result = method(tokenized)
+                if (
+                    result is not None
+                    and isinstance(result, (int, float))
+                    and result > 0
+                ):
+                    return int(result)
+            except Exception:
+                continue
+
+        logger.warning(f"Could not extract token length for {nct_id}, using fallback")
+        return fallback_length
+
+    def _validate_token_lengths(self, items: List[Dict]) -> None:
+        """Validate that all token lengths are integers and fix any that aren't."""
+        for i, item in enumerate(items):
+            tok_len = item["tok_len"]
+            if not isinstance(tok_len, int):
+                logger.error(
+                    f"Invalid tok_len type for {item['nct_id']}: {type(tok_len)}, value: {tok_len}"
+                )
+                # Force conversion to int
+                try:
+                    if (
+                        isinstance(tok_len, (float, str))
+                        and str(tok_len).replace(".", "").isdigit()
+                    ):
+                        item["tok_len"] = int(float(tok_len))
+                        logger.warning(
+                            f"Converted tok_len for {item['nct_id']} from {type(tok_len)} to int"
+                        )
+                    else:
+                        # Use character-based fallback
+                        item["tok_len"] = max(1, len(item["prompt"]) // 4)
+                        logger.warning(f"Using fallback tok_len for {item['nct_id']}")
+                except Exception as e:
+                    logger.error(f"Failed to convert tok_len for {item['nct_id']}: {e}")
+                    item["tok_len"] = max(1, len(item["prompt"]) // 4)

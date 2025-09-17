@@ -10,8 +10,9 @@ import warnings
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import torch
-from elasticsearch import Elasticsearch
 from Parser.biomedner_engine import BioMedNER
+
+from elasticsearch import Elasticsearch
 
 from .config.config_loader import load_config
 from .models.embedding.query_embedder import QueryEmbedder
@@ -34,6 +35,11 @@ from .utils.file_utils import (
     write_text_file,
 )
 from .utils.logging_config import setup_logging
+
+os.environ["VLLM_WORKER_MULTIPROC_METHOD"] = "spawn"
+os.environ["VLLM_ALLOW_INSECURE_SERIALIZATION"] = "1"
+os.environ["VLLM_USE_V1"] = "0"  # Force v0 API if v1 has issues
+os.environ["VLLM_DISABLE_ASYNC_OUTPUT_PROC"] = "1"  # Disable async processing
 
 logger = setup_logging()
 
@@ -66,7 +72,7 @@ DEFAULT_ABLATION_CONFIG: Dict[str, Any] = {
         "seed": 1234,
         "temperature": 0.0,
         "top_p": 1.0,
-        "batch_size": 16,
+        "batch_size": 32,
         "length_bucket": True,
         "max_num_seqs": 64,
         "max_num_batched_tokens": 4096,
@@ -242,8 +248,8 @@ class AblationStudyRunner:
         self.ground_truth_map: Dict[str, Dict[str, int]] = {}
         self.model = None
         self.tokenizer = None
-        self.vllm_engine = None  # NEW
-        self.vllm_lora_request = None  # NEW
+        self.vllm_engine = None
+        self.vllm_lora_request = None
         self.first_level_embedder = None
         self.second_level_embedder = None
         self.bio_med_ner: Optional[BioMedNER] = None

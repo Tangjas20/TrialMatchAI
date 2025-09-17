@@ -72,7 +72,13 @@ def load_vllm_engine(
     """
     # Lazy imports to avoid import costs when not used
     from vllm import LLM  # type: ignore
-    from vllm.lora.request import LoRARequest  # type: ignore
+
+    # Try to import LoRARequest, handle different vLLM versions
+    try:
+        from vllm.lora.request import LoRARequest  # type: ignore
+    except ImportError:
+        logger.warning("[vLLM] LoRARequest not available in this vLLM version")
+        LoRARequest = None  # type: ignore
 
     vllm_cfg = dict(vllm_cfg or {})
 
@@ -118,8 +124,6 @@ def load_vllm_engine(
         gpu_memory_utilization=gmu,
         enable_lora=True,  # allows dynamic LoRA loading
         max_lora_rank=max_lora_rank,
-        # NOTE: trust_remote_code is controlled inside transformers when vLLM loads; passing it
-        # here may be ignored depending on vLLM version, so we avoid it to prevent confusion.
     )
     if requested_len is not None:
         engine_kwargs["max_model_len"] = requested_len
@@ -147,11 +151,11 @@ def load_vllm_engine(
     except Exception as e:
         logger.warning(f"[vLLM] Unable to fetch tokenizer from engine: {e}")
 
-    # Optional LoRA (single adapter). We preload if API is available; we still return LoRARequest
-    # so the caller can use it in generate() calls if needed.
+    # Optional LoRA (single adapter)
     adapter_path = vllm_cfg.get("adapter_path") or model_config.get("cot_adapter_path")
     lora_request = None
-    if adapter_path:
+
+    if adapter_path and LoRARequest is not None:
         adapter_path = _as_str(adapter_path, "adapter_path")
         if not adapter_path:
             logger.warning("[vLLM] adapter_path was provided but empty; skipping LoRA.")
@@ -160,31 +164,77 @@ def load_vllm_engine(
                 _as_str(vllm_cfg.get("adapter_name", "cot_adapter"), "adapter_name")
                 or "cot_adapter"
             )
-            weight = (
-                _as_float(vllm_cfg.get("adapter_weight", 1.0), "adapter_weight") or 1.0
-            )
+
+            # Get adapter_id from config, default to 1
+            adapter_id = _as_int(vllm_cfg.get("adapter_id", 1), "adapter_id") or 1
+
+            # Try different LoRARequest constructor signatures
+            # Most vLLM versions expect: LoRARequest(lora_name, lora_int_id, lora_local_path)
             try:
-                lora_request = LoRARequest(name, adapter_path, weight)  # type: ignore
-            except TypeError:
-                # Fallback other vLLM signatures (some versions don't take weight)
-                lora_request = LoRARequest(name, adapter_path)  # type: ignore
-            logger.info(
-                "[vLLM] Using LoRA adapter: name=%s path=%s weight=%.3f",
-                name,
-                adapter_path,
-                float(weight),
-            )
-            try:
-                add_lora = getattr(engine, "add_lora", None)
-                if callable(add_lora):
-                    # Some versions accept (name, path) only
+                # Primary signature: (name: str, id: int, path: str, ...)
+                lora_request = LoRARequest(
+                    lora_name=name,
+                    lora_int_id=adapter_id,  # Use integer ID
+                    lora_local_path=adapter_path,
+                )
+                logger.info(
+                    "[vLLM] Created LoRA request with explicit kwargs: name=%s id=%d path=%s",
+                    name,
+                    adapter_id,
+                    adapter_path,
+                )
+            except (TypeError, AttributeError) as e:
+                logger.debug(f"[vLLM] First LoRA signature failed: {e}")
+
+                try:
+                    # Alternative: positional args (name, id, path)
+                    lora_request = LoRARequest(name, adapter_id, adapter_path)  # type: ignore
+                    logger.info(
+                        "[vLLM] Created LoRA request with positional args: name=%s id=%d path=%s",
+                        name,
+                        adapter_id,
+                        adapter_path,
+                    )
+                except (TypeError, AttributeError) as e2:
+                    logger.debug(f"[vLLM] Second LoRA signature failed: {e2}")
+
                     try:
-                        add_lora(name, adapter_path)
-                    except TypeError:
-                        # Others accept dict or kwargs; attempt a generic call
-                        add_lora(name=name, path=adapter_path)
-                    logger.info("[vLLM] Preloaded LoRA adapter.")
-            except Exception as e:
-                logger.warning(f"[vLLM] Preload adapter failed (safe to ignore): {e}")
+                        # Older versions might have different parameter names
+                        # Some versions might use just name and path
+                        lora_request = LoRARequest(name, adapter_path)  # type: ignore
+                        # Manually set the ID if the object allows it
+                        if hasattr(lora_request, "lora_int_id"):
+                            setattr(lora_request, "lora_int_id", adapter_id)
+                        logger.info(
+                            "[vLLM] Created LoRA request (legacy): name=%s path=%s",
+                            name,
+                            adapter_path,
+                        )
+                    except Exception as e3:
+                        logger.error(
+                            f"[vLLM] All LoRA request creation attempts failed: {e3}"
+                        )
+                        logger.warning("[vLLM] Proceeding without LoRA adapter")
+                        lora_request = None
+
+            # Try to preload the adapter if we successfully created a request
+            if lora_request is not None:
+                try:
+                    add_lora = getattr(engine, "add_lora", None)
+                    if callable(add_lora):
+                        try:
+                            add_lora(adapter_id, adapter_path)
+                        except TypeError:
+                            # Try with name instead of ID
+                            try:
+                                add_lora(name, adapter_path)
+                            except:  # noqa: E722
+                                # Try as kwargs
+                                add_lora(lora_id=adapter_id, lora_path=adapter_path)
+                        logger.info("[vLLM] Preloaded LoRA adapter.")
+                except Exception as e:
+                    logger.warning(
+                        f"[vLLM] Preload adapter failed (safe to ignore): {e}"
+                    )
 
     return engine, tokenizer, lora_request
