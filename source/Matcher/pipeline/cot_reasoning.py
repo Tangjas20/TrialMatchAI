@@ -20,6 +20,14 @@ class BatchTrialProcessor:
         self.tokenizer = tokenizer
         self.use_cot = use_cot
 
+        self.model.eval()
+        try:
+                # Allow TF32 on Ampere+ (gives a free speedup for matmuls with minimal accuracy loss)
+                torch.backends.cuda.matmul.allow_tf32 = True
+                torch.set_float32_matmul_precision("high")
+        except Exception:
+            pass
+
     def _load_trial_data(self, nct_id: str, json_folder: str) -> str:
         try:
             path = f"{json_folder}/{nct_id}.json"
@@ -126,6 +134,30 @@ class BatchTrialProcessor:
         system_part = f"{chat[0]['content']}\n\n"
         user_part = f"{chat[1]['content']}\n\n"
         return system_part + user_part + "Answer: "
+    
+    def _individual_process(self, nct_id: str, prompt: str, output_folder: str):
+        """ Process a single trial individually in case of batch failure due to a repetition pitfall of the model."""
+        try:
+            inputs = self.tokenizer(
+                [prompt],
+                padding=True,
+                truncation=True,
+                return_tensors="pt",
+            ).to(f"cuda:{self.device}")
+            with torch.inference_mode():
+                outputs = self.model.generate(
+                    **inputs,
+                    max_new_tokens=5000,
+                    do_sample=False,
+                    return_dict_in_generate=False,
+                    use_cache=True
+                    )
+            decoded_response = self.tokenizer.batch_decode(
+                outputs[:, inputs.input_ids.shape[1] :], skip_special_tokens=True
+            )[0]
+            self._save_outputs(nct_id, decoded_response, output_folder)
+        except Exception as e:
+            logger.error(f"Failed individual processing for {nct_id}: {str(e)}")
 
     def _process_batch(self, batch: List[Dict], output_folder: str):
         try:
@@ -141,17 +173,20 @@ class BatchTrialProcessor:
                     **inputs,
                     max_new_tokens=5000,
                     do_sample=False,
-                    return_dict_in_generate=True,
-                    output_scores=True,
+                    return_dict_in_generate=False,
                     use_cache=True
                     )
             decoded_responses = self.tokenizer.batch_decode(
-                outputs.sequences[:, inputs.input_ids.shape[1] :], skip_special_tokens=True
+                outputs[:, inputs.input_ids.shape[1] :], skip_special_tokens=True
             )
 
             logger.warning(f"Decoded response: {decoded_responses}")
             for item, response in zip(batch, decoded_responses):
-                self._save_outputs(item["nct_id"], response, output_folder)
+                try:
+                    self._save_outputs(item["nct_id"], response, output_folder)
+                except Exception as e:
+                    logger.error(f"Failed to process {item['nct_id']}: {str(e)}. Regenerating individually.")
+                    self._individual_process(nct_id=item["nct_id"], prompt=item["prompt"], output_folder=output_folder)
         except Exception as e:
             logger.error(f"Batch processing failed: {str(e)}")
             for item in batch:
