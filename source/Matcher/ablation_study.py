@@ -1,15 +1,8 @@
-# Example usage:
-# cd TrialMatchAI/source/
-# python -m Matcher.ablation_study \
-#     --ablation-config /path/to/ablation_config.json \
-#     --trec-ground-truth /path/to/trec_ground_truth.csv \
-#     --patients-file /path/to/patients.json \
-#     --output-dir /path/to/output_directory \
-#     --nct-ids-file /path/to/nct_ids.txt \
-#     --patient P001 P002,P003
+# Matcher/ablation_study.py
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import time
@@ -17,15 +10,18 @@ import warnings
 from typing import Any, Dict, List, Optional, Set, Tuple, Union
 
 import torch
-from elasticsearch import Elasticsearch
 from Parser.biomedner_engine import BioMedNER
+
+from elasticsearch import Elasticsearch
 
 from .config.config_loader import load_config
 from .models.embedding.query_embedder import QueryEmbedder
 from .models.embedding.sentence_embedder import SecondLevelSentenceEmbedder
-from .models.llm.llm_loader import load_model_and_tokenizer
+from .models.llm.llm_loader import load_model_and_tokenizer  # HF path (kept)
 from .models.llm.llm_reranker import LLMReranker
-from .pipeline.cot_reasoning import BatchTrialProcessor
+from .models.llm.vllm_loader import load_vllm_engine  # vLLM path (new)
+from .pipeline.cot_reasoning import BatchTrialProcessor  # HF CoT
+from .pipeline.cot_reasoning_vllm import BatchTrialProcessorVLLM  # vLLM CoT
 from .pipeline.trial_ranker import load_trial_data, rank_trials, save_ranked_trials
 from .pipeline.trial_search.first_level_search import ClinicalTrialSearch
 from .pipeline.trial_search.second_level_search import SecondStageRetriever
@@ -40,6 +36,11 @@ from .utils.file_utils import (
 )
 from .utils.logging_config import setup_logging
 
+os.environ["VLLM_WORKER_MULTIPROC_METHOD"] = "spawn"
+os.environ["VLLM_ALLOW_INSECURE_SERIALIZATION"] = "1"
+os.environ["VLLM_USE_V1"] = "0"  # Force v0 API if v1 has issues
+os.environ["VLLM_DISABLE_ASYNC_OUTPUT_PROC"] = "1"  # Disable async processing
+
 logger = setup_logging()
 
 # Bounded synonym cache (trim when large)
@@ -52,14 +53,37 @@ TREC_GROUND_TRUTH_DEFAULT = (
 )
 
 DEFAULT_ABLATION_CONFIG: Dict[str, Any] = {
-    "use_biomedner": True,
+    "use_biomedner": False,
     "first_level_search_mode": "hybrid",  # "bm25", "vector", "hybrid"
     "use_second_level_search": True,
     "use_second_level_rerank": True,
     "use_cot_reasoning": True,
+    "cot_backend": "vllm",  # "hf" or "vllm"
     "max_trials_first_level": 1000,
     "max_trials_second_level": 500,
     "max_trials_cot": 100,
+    # vLLM options (override in ablation config if desired)
+    "vllm": {
+        "model_path": None,  # fallback to config.model.base_model
+        "dtype": "bfloat16",
+        "tensor_parallel_size": 1,
+        "gpu_memory_utilization": 0.7,
+        "trust_remote_code": True,
+        "seed": 1234,
+        "temperature": 0.0,
+        "top_p": 1.0,
+        "batch_size": 32,
+        "length_bucket": True,
+        "max_num_seqs": 64,
+        "max_num_batched_tokens": 4096,
+        "enforce_eager": True,
+        "adapter_path": None,  # fallback to config.model.cot_adapter_path
+        "adapter_name": "cot_adapter",
+        "adapter_weight": 1.0,
+        "max_lora_rank": 64,
+        "adapter_id": 1,
+        # optional: "max_model_len": None,
+    },
 }
 
 
@@ -100,6 +124,94 @@ def _normalize_patient_ids(arg: Optional[Union[List[str], str]]) -> Optional[Lis
     return out or None
 
 
+# -------- vLLM config sanitation helpers --------
+
+
+def _as_str(x, name: str) -> Optional[str]:
+    if x is None:
+        return None
+    if isinstance(x, (str, os.PathLike)):
+        return str(x)
+    if isinstance(x, float):
+        # Catch the classic "1.0" accidentally flowing into a path field
+        raise TypeError(f"{name} must be a string path/repo id, not float: {x!r}")
+    return str(x)
+
+
+def _as_int(x, name: str) -> Optional[int]:
+    if x is None:
+        return None
+    try:
+        return int(x)
+    except Exception as e:
+        raise TypeError(f"{name} must be int-compatible, got {type(x)}: {x!r}") from e
+
+
+def _as_float(x, name: str) -> Optional[float]:
+    if x is None:
+        return None
+    try:
+        return float(x)
+    except Exception as e:
+        raise TypeError(f"{name} must be float-compatible, got {type(x)}: {x!r}") from e
+
+
+def _as_bool(x, name: str) -> Optional[bool]:
+    if x is None:
+        return None
+    if isinstance(x, bool):
+        return x
+    # Accept "true"/"false" strings, 0/1, etc.
+    if isinstance(x, (int, float)):
+        return bool(x)
+    if isinstance(x, str):
+        return x.strip().lower() in {"1", "true", "yes", "y", "on"}
+    raise TypeError(f"{name} must be bool-compatible, got {type(x)}: {x!r}")
+
+
+def _sanitize_vllm_cfg(raw: Dict[str, Any]) -> Dict[str, Any]:
+    """Coerce expected types; guard against 1.0/strings leaking into wrong fields."""
+    cfg = dict(raw or {})
+
+    # Strings / paths
+    for k in ("model_path", "dtype", "adapter_path", "adapter_name"):
+        if k in cfg:
+            val = cfg[k]
+            try:
+                cfg[k] = _as_str(val, k) if val is not None else None
+            except TypeError as e:
+                logger.warning(
+                    f"[vLLM] Sanitizing invalid {k}={val!r}: {e}; forcing None."
+                )
+                cfg[k] = None
+
+    # Floats
+    for k in ("gpu_memory_utilization", "temperature", "top_p", "adapter_weight"):
+        if k in cfg and cfg[k] is not None:
+            cfg[k] = _as_float(cfg[k], k)
+
+    # Ints
+    for k in (
+        "tensor_parallel_size",
+        "seed",
+        "batch_size",
+        "max_num_seqs",
+        "max_num_batched_tokens",
+        "max_lora_rank",
+        "adapter_id",
+        "max_model_len",
+    ):
+        if k in cfg and cfg[k] is not None:
+            cfg[k] = _as_int(cfg[k], k)
+
+    # Bools
+    for k in ("trust_remote_code", "length_bucket", "enforce_eager"):
+        if k in cfg and cfg[k] is not None:
+            cfg[k] = _as_bool(cfg[k], k)
+
+    return cfg
+
+
 class AblationMetrics:
     """Tracks performance metrics and timing for each component."""
 
@@ -135,6 +247,8 @@ class AblationStudyRunner:
         self.ground_truth_map: Dict[str, Dict[str, int]] = {}
         self.model = None
         self.tokenizer = None
+        self.vllm_engine = None
+        self.vllm_lora_request = None
         self.first_level_embedder = None
         self.second_level_embedder = None
         self.bio_med_ner: Optional[BioMedNER] = None
@@ -156,13 +270,13 @@ class AblationStudyRunner:
         if self.tokenizer is None:
             return
         if getattr(self.tokenizer, "pad_token", None) is None:
-            self.tokenizer.pad_token = getattr(self.tokenizer, "eos_token", None)
+            self.tokenizer.pad_token = getattr(self.tokenizer, "eos_token", None)  # type: ignore
         if (
             hasattr(self.model, "config")
-            and getattr(self.model.config, "pad_token_id", None) is None
+            and getattr(self.model.config, "pad_token_id", None) is None  # type: ignore
             and getattr(self.tokenizer, "pad_token_id", None) is not None
         ):
-            self.model.config.pad_token_id = self.tokenizer.pad_token_id
+            self.model.config.pad_token_id = self.tokenizer.pad_token_id  # type: ignore
 
     def setup_components(self) -> None:
         """Initialize all components needed for the pipeline."""
@@ -173,25 +287,54 @@ class AblationStudyRunner:
                 "BioMedNER disabled by ablation; services will not be initialized."
             )
 
-        with warnings.catch_warnings():
-            warnings.filterwarnings(
-                "ignore", message=".*quantization_config.*", category=UserWarning
+        # ---- Select CoT backend (HF or vLLM) ----
+        cot_backend = (self.ablation_config.get("cot_backend") or "hf").lower()
+        if cot_backend not in {"hf", "vllm"}:
+            logger.warning(f"Unknown cot_backend '{cot_backend}', defaulting to 'hf'")
+            cot_backend = "hf"
+            self.ablation_config["cot_backend"] = "hf"
+
+        if cot_backend == "hf":
+            with warnings.catch_warnings():
+                warnings.filterwarnings(
+                    "ignore", message=".*quantization_config.*", category=UserWarning
+                )
+                self.model, self.tokenizer = load_model_and_tokenizer(
+                    self.config["model"], self.config["global"]["device"]
+                )
+            self._normalize_tokenizer_padding()
+
+            # Mixed precision only when applicable and not 4/8-bit
+            if (
+                self.config["global"]["device"] != "cpu"
+                and torch.cuda.is_available()
+                and not getattr(self.model, "is_loaded_in_4bit", False)
+                and not getattr(self.model, "is_loaded_in_8bit", False)
+                and hasattr(self.model, "half")
+            ):
+                self.model = self.model.half()  # type: ignore
+
+        else:
+            # vLLM engine + optional LoRA adapter
+            vllm_cfg_effective = {
+                **DEFAULT_ABLATION_CONFIG["vllm"],
+                **(self.ablation_config.get("vllm") or {}),
+            }
+            logger.info(
+                "[vLLM] Effective config BEFORE sanitize:\n%s",
+                json.dumps(vllm_cfg_effective, indent=2, sort_keys=True),
             )
-            self.model, self.tokenizer = load_model_and_tokenizer(
-                self.config["model"], self.config["global"]["device"]
+            vllm_cfg = _sanitize_vllm_cfg(vllm_cfg_effective)
+            logger.info(
+                "[vLLM] Effective config AFTER sanitize:\n%s",
+                json.dumps(vllm_cfg, indent=2, sort_keys=True),
             )
 
-        self._normalize_tokenizer_padding()
-
-        # Mixed precision only when applicable and not 4/8-bit
-        if (
-            self.config["global"]["device"] != "cpu"
-            and torch.cuda.is_available()
-            and not getattr(self.model, "is_loaded_in_4bit", False)
-            and not getattr(self.model, "is_loaded_in_8bit", False)
-            and hasattr(self.model, "half")
-        ):
-            self.model = self.model.half()
+            # Build engine (load_vllm_engine internally selects only the valid keys)
+            self.vllm_engine, self.tokenizer, self.vllm_lora_request = load_vllm_engine(
+                self.config["model"], vllm_cfg
+            )
+            logger.info("vLLM engine initialized.")
 
         # Embedders + NER
         self.first_level_embedder = QueryEmbedder(
@@ -219,7 +362,7 @@ class AblationStudyRunner:
                 model_path=self.config["model"]["reranker_model_path"],
                 adapter_path=self.config["model"]["reranker_adapter_path"],
                 device=self.config["global"]["device"],
-                batch_size=self.config["cot"]["batch_size"] * 2,
+                batch_size=int(self.config["cot"]["batch_size"]) * 2,
             )
 
         # Elasticsearch client
@@ -235,7 +378,7 @@ class AblationStudyRunner:
         ca_certs = self.config["paths"].get("docker_certs")
         if ca_certs:
             es_kwargs["ca_certs"] = ca_certs
-        self.es_client = Elasticsearch(**es_kwargs)
+        self.es_client = Elasticsearch(**es_kwargs)  # pyright: ignore[reportArgumentType]
 
         # Second-stage retriever (NER may be None)
         self.gemma_retriever = SecondStageRetriever(
@@ -295,7 +438,7 @@ class AblationStudyRunner:
         if bio_med_ner is None:
             logger.info("Synonym expansion disabled (BioMedNER off)")
 
-        cts = ClinicalTrialSearch(self.es_client, embedder, index_name, bio_med_ner)
+        cts = ClinicalTrialSearch(self.es_client, embedder, index_name, bio_med_ner)  # pyright: ignore[reportArgumentType]
 
         # Synonym expansion (bounded cache)
         if bio_med_ner is not None and condition:
@@ -328,9 +471,13 @@ class AblationStudyRunner:
             search_mode=search_mode,
         )
 
-        nct_ids: List[str] = [t.get("nct_id") for t in trials if t.get("nct_id")]
+        nct_ids: List[str] = [
+            str(t.get("nct_id")) for t in trials if t.get("nct_id") is not None
+        ]
         first_level_scores: Dict[str, float] = {
-            t.get("nct_id"): float(s) for t, s in zip(trials, scores) if t.get("nct_id")
+            nct_id: float(s)
+            for t, s in zip(trials, scores)
+            if (nct_id := t.get("nct_id")) is not None
         }
 
         # Hard-enforce exclusivity if restriction set present
@@ -499,16 +646,43 @@ class AblationStudyRunner:
             ablation_metrics.end_timer("cot")
             return
 
-        self._normalize_tokenizer_padding()
-        batch_size = min(int(self.config["cot"]["batch_size"]) * 2, 4)
+        cot_backend = (self.ablation_config.get("cot_backend") or "hf").lower()
+        use_cot_flag = bool(self.ablation_config.get("use_cot_reasoning", True))
 
-        cot_processor = BatchTrialProcessor(
-            self.model,
-            self.tokenizer,
-            device=self.config["global"]["device"],
-            batch_size=batch_size,
-            use_cot=bool(self.ablation_config.get("use_cot_reasoning", True)),
-        )
+        if cot_backend == "vllm":
+            if self.vllm_engine is None:
+                raise RuntimeError(
+                    "vLLM engine was not initialized. Check setup_components()."
+                )
+            vllm_cfg_effective = {
+                **DEFAULT_ABLATION_CONFIG["vllm"],
+                **(self.ablation_config.get("vllm") or {}),
+            }
+            vllm_cfg = _sanitize_vllm_cfg(vllm_cfg_effective)
+            cot_processor = BatchTrialProcessorVLLM(
+                llm=self.vllm_engine,  # type: ignore
+                tokenizer=self.tokenizer,  # fetched from engine
+                batch_size=int(vllm_cfg.get("batch_size", 16)),
+                use_cot=use_cot_flag,
+                max_new_tokens=int(self.config["cot"].get("max_new_tokens", 5000)),
+                temperature=float(vllm_cfg.get("temperature", 0.0)),
+                top_p=float(vllm_cfg.get("top_p", 1.0)),
+                seed=int(vllm_cfg.get("seed", 1234)),
+                length_bucket=bool(vllm_cfg.get("length_bucket", True)),
+                lora_request=self.vllm_lora_request,
+            )
+        else:
+            # HF backend (original)
+            self._normalize_tokenizer_padding()
+            batch_size = min(int(self.config["cot"]["batch_size"]) * 2, 4)
+            cot_processor = BatchTrialProcessor(
+                self.model,
+                self.tokenizer,
+                device=self.config["global"]["device"],
+                batch_size=batch_size,
+                use_cot=use_cot_flag,
+            )
+
         cot_processor.process_trials(
             nct_ids=top_trials,
             json_folder=self.config["paths"]["trials_json_folder"],
@@ -519,11 +693,9 @@ class AblationStudyRunner:
         write_json_file(
             {
                 "cot_enabled": True,
+                "cot_backend": cot_backend,
                 "trials_processed": len(top_trials),
-                "batch_size": batch_size,
-                "use_cot_reasoning": bool(
-                    self.ablation_config.get("use_cot_reasoning", True)
-                ),
+                "use_cot_reasoning": use_cot_flag,
             },
             os.path.join(output_folder, "cot_ablation.json"),
         )
@@ -533,7 +705,7 @@ class AblationStudyRunner:
 
         ablation_metrics.add_metric("cot_trials", len(top_trials))
         ablation_metrics.end_timer("cot")
-        logger.info("CoT-based trial matching complete.")
+        logger.info(f"CoT-based trial matching complete (backend={cot_backend}).")
 
     # ---------- Scenario + Runner ----------
 
@@ -541,7 +713,9 @@ class AblationStudyRunner:
         parts = [
             f"fl-{cfg.get('first_level_search_mode', 'hybrid')}",
             "rerank" if cfg.get("use_second_level_rerank", True) else "no-rerank",
-            "cot" if cfg.get("use_cot_reasoning", True) else "no-cot",
+            ("cot-" + (cfg.get("cot_backend", "hf")))
+            if cfg.get("use_cot_reasoning", True)
+            else "no-cot",
             "ner" if cfg.get("use_biomedner", True) else "no-ner",
         ]
         return "_".join(parts)

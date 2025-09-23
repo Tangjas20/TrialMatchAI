@@ -24,7 +24,6 @@ def load_model_and_tokenizer(
         compute_dtype = torch.float16
 
     if use_cuda:
-
         cuda_count = torch.cuda.device_count()
         idx = int(device) if isinstance(device, int) else 0
         if idx < 0 or idx >= cuda_count:
@@ -121,13 +120,9 @@ def load_model_and_tokenizer(
         except Exception as e:
             logger.warning(f"torch.compile failed; continuing without it. Err: {e}")
 
-    model.eval()
-    tokenizer.pad_token = tokenizer.eos_token
-    model.config.pad_token_id = tokenizer.pad_token_id
-
-    if tokenizer.encode(tokenizer.eos_token)[0] != model.config.eos_token_id:
-        logger.warning(
-            "Tokenizer and model EOS token IDs do not match! This may be the problem!!!."
-        )
-
-    return model, tokenizer
+    if isinstance(model, torch.nn.Module):
+        model.eval()
+    else:
+        logger.warning("Model is not an instance of torch.nn.Module; skipping eval.")
+    logger.info(f"Model loaded on {device_str}.")
+    return model, tokenizer  # type: ignore[return-value]

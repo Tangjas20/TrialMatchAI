@@ -1,7 +1,7 @@
 import math
 from collections import defaultdict
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from Matcher.models.embedding.sentence_embedder import SecondLevelSentenceEmbedder
 from Matcher.models.llm.llm_reranker import LLMReranker
@@ -210,7 +210,7 @@ class SecondStageRetriever:
         nct_ids: List[str],
         top_n: int,
         use_reranker: bool = True,
-        save_path: str = None,
+        save_path: Optional[str] = None,
     ) -> List[Dict]:
         query_to_hits = self.retrieve_criteria(nct_ids, queries)
         all_criteria = []

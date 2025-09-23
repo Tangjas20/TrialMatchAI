@@ -1650,3 +1650,242 @@ Traceback (most recent call last):
   File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
     s.bind((host, port))
 OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.600 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 52062)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.661 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.664 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 58326)
+0it [00:00, ?it/s]1it [00:00, 27.60it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]/home/mabdallah/.conda/envs/trialmatchai/lib/python3.11/site-packages/torch/nn/modules/module.py:1786: FutureWarning: `encoder_attention_mask` is deprecated and will be removed in version 4.55.0 for `RobertaSdpaSelfAttention.forward`.
+  return forward_call(*args, **kwargs)
+Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.52it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  6.50it/s]
+Response sent for 03da14bdd5e112af67e8c6f7a3bd0d6d15e72f411d309a35cd0743bf.PubTator
+Connected by ('127.0.0.1', 60374)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.664 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.676 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.761 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 55874)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.678 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.664 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 57998)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.679 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.672 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 53008)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.630 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.621 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.638 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 36312)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.624 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.621 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 60350)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.669 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.679 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 47356)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.623 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.677 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 57180)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.670 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.660 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 49116)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.651 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.687 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 50804)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.899 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.631 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 51960)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes
+BioMedNER init_t 0.660 sec.
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 63, in run_server
+    s.bind((host, port))
+OSError: [Errno 98] Address already in use
+BioMedNER init_t 0.629 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 50042)
+0it [00:00, ?it/s]1it [00:00, 234.52it/s]
+Prediction:   0%|          | 0/1 [00:00<?, ?it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.22it/s]Prediction: 100%|██████████| 1/1 [00:00<00:00,  3.21it/s]
+BioMedNER init_t 0.633 sec.
+Server listening on localhost:18894
+Connected by ('127.0.0.1', 57814)
+Traceback (most recent call last):
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 116, in <module>
+    run_server(mt_ner, args)
+  File "/nfs/scratch/mabdallah/TrialMatchAI/source/Parser/biomedner_server.py", line 70, in run_server
+    message_length = struct.unpack(">H", conn.recv(2))[0]
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+struct.error: unpack requires a buffer of 2 bytes

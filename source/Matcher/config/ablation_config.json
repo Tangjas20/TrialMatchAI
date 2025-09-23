@@ -1,0 +1,29 @@
+{
+  "use_biomedner": false,
+  "first_level_search_mode": "hybrid",
+  "use_second_level_search": true,
+  "use_second_level_rerank": true,
+  "use_cot_reasoning": true,
+  "cot_backend": "vllm",
+  "max_trials_first_level": 1000,
+  "max_trials_second_level": 500,
+  "max_trials_cot": 100,
+  "vllm": {
+    "model_path": "microsoft/phi-4",
+    "dtype": "bfloat16",
+    "tensor_parallel_size": 1,
+    "gpu_memory_utilization": 0.7,
+    "seed": 1234,
+    "temperature": 0.0,
+    "top_p": 1.0,
+    "batch_size": 16,
+    "max_new_tokens": 5000,
+    "length_bucket": true,
+    "enable_lora": true,
+    "lora": {
+      "adapter_name": "finetuned_phi_reasoning",
+      "adapter_id": 1,
+      "adapter_path": "models/finetuned_phi_reasoning"
+    }
+  }
+}
