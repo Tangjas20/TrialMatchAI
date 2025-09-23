@@ -14,12 +14,12 @@
   },
   "paths": {
     "patients_dir": "../data/processed_trials21.json",
-    "output_dir": "results/TREC",
-    "trials_json_folder": "../data/processed_trials",
+    "output_dir": "/home/testgpu/matching_results/TREC21",
+    "trials_json_folder": "../data/trec_processed_trials",
     "docker_certs": "../elasticsearch/certs/ca.crt"
   },
   "model": {
-    "base_model": "microsoft/phi-4",
+    "base_model": "/home/testgpu/.cache/huggingface/hub/models--microsoft--phi-4",
     "quantization": {
       "load_in_4bit": true,
       "bnb_4bit_use_double_quant": true,

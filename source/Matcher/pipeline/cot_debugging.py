@@ -74,7 +74,7 @@ if __name__ == "__main__":
     # Debugging configuration
     config = load_config(config_path='Matcher/config/config.json')
 
-    top_trials_path = "../results/TREC21/trec-20211/fl-hybrid_rerank_cot_ner/top_trials.txt"
+    top_trials_path = "/home/testgpu/matching_results/TREC21/trec-20211/top_trials.txt"
     # Example patient information
     patient_info = {
         "split_raw_description": [

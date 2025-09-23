@@ -52,8 +52,8 @@ fi
 cd /scratch/mgeorges/TrialMatchAI/TrialMatchAI/source || { echo "Directory not found"; exit 1; }
 
 python -m Matcher.ablation_study \
-     --ablation-config /scratch/mgeorges/TrialMatchAI/TrialMatchAI/source/Matcher/config/config.json \
-     --trec-ground-truth /scratch/mgeorges/TrialMatchAI/trialmatch_benchmark/TrialGPT/dataset/trec_$TREC_YEAR/qrels/test.tsv \
+     --ablation-config /home/testgpu/TrialMatchAI/source/Matcher/config/config.json \
+     --trec-ground-truth /home/testgpu/TrialGPT/dataset/trec_$TREC_YEAR/qrels/test.tsv \
      --patients-file ../data/processed_patients${TREC_YEAR:2:2}.json \
      --output-dir ../results/TREC${TREC_YEAR:2:2} \
      --patient $PATIENT_IDS

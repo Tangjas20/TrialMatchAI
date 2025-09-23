@@ -48,7 +48,7 @@ _MAX_CACHE_SIZE = 1000
 
 # Default ground-truth CSV path (can be overridden by CLI/config)
 TREC_GROUND_TRUTH_DEFAULT = (
-    "/home/mabdallah/scratch/TrialMatchAI/data/trec/trec_ground_truth.csv"
+    "/home/testgpu/TrialGPT/dataset/trec_2021/qrels/test.tsv"
 )
 
 DEFAULT_ABLATION_CONFIG: Dict[str, Any] = {
