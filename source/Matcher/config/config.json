@@ -1,4 +1,14 @@
 {
+  "default_ablation_config": {
+    "use_biomedner": false,
+    "first_level_search_mode": "hybrid",
+    "use_second_level_search": true,
+    "use_second_level_rerank": true,
+    "use_cot_reasoning": true,
+    "max_trials_first_level": 1000,
+    "max_trials_second_level": 500,
+    "max_trials_cot": 100
+  },
   "bio_med_ner": {
     "biomedner_port": 18894,
     "gner_port": 18783,

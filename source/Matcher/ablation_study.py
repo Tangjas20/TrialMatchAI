@@ -132,7 +132,6 @@ class AblationStudyRunner:
         self, config: Dict[str, Any], ablation_config: Optional[Dict[str, Any]] = None
     ) -> None:
         self.config = config
-        self.ablation_config = {**DEFAULT_ABLATION_CONFIG, **(ablation_config or {})}
         self.ground_truth_map: Dict[str, Dict[str, int]] = {}
         self.model = None
         self.tokenizer = None
@@ -143,6 +142,14 @@ class AblationStudyRunner:
         self.es_client: Optional[Elasticsearch] = None
         self.gemma_retriever: Optional[SecondStageRetriever] = None
         self.restrict_nct_ids: Optional[Set[str]] = None
+        base_ablation_config = DEFAULT_ABLATION_CONFIG.copy()
+        
+        # Override with config.json default_ablation_config if present
+        if "default_ablation_config" in config:
+            logger.info(f"Using default_ablation_config from config.json: {config['default_ablation_config']}")
+            base_ablation_config.update(config["default_ablation_config"])
+        self.ablation_config = {**base_ablation_config, **(ablation_config or {})}
+
         self.setup_components()
 
     def _normalize_tokenizer_padding(self) -> None:
@@ -801,6 +808,10 @@ def run_ablation_study_from_config(ablation_config_path: Optional[str] = None) -
     """Run ablation study with configuration from file."""
     config = load_config()
     ablation_config = DEFAULT_ABLATION_CONFIG.copy()
+    # Override with config.json default_ablation_config if present
+    if "default_ablation_config" in config:
+        logger.info(f"Using default_ablation_config from config.json: {config['default_ablation_config']}")
+        ablation_config.update(config["default_ablation_config"])
     if ablation_config_path and os.path.exists(ablation_config_path):
         ablation_override = read_json_file(ablation_config_path)
         ablation_config.update(ablation_override)
@@ -854,6 +865,9 @@ if __name__ == "__main__":
     # Load base config + ablation config
     config = load_config()
     ablation_config = DEFAULT_ABLATION_CONFIG.copy()
+    if "default_ablation_config" in config:
+        logger.info(f"Using default_ablation_config from config.json: {config['default_ablation_config']}")
+        ablation_config.update(config["default_ablation_config"])
     if args.ablation_config and os.path.exists(args.ablation_config):
         ablation_override = read_json_file(args.ablation_config)
         ablation_config.update(ablation_override)
