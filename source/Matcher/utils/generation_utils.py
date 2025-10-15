@@ -438,9 +438,9 @@ def split_into_sentences(text: str) -> List[str]:
     for i, abbrev in enumerate(abbreviations):
         temp_text = temp_text.replace(abbrev, f"ABBREV{i}")
     
-    # Split on sentence-ending punctuation
-    sentences = re.split(r'(?<=[.!?])\s+', temp_text)
-    
+    # Split on sentence-ending punctuation and line breaks
+    sentences = re.split(r'(?<=[.!?])\s+|\n+', temp_text)
+
     # Restore abbreviations and clean up
     final_sentences = []
     for sentence in sentences:
