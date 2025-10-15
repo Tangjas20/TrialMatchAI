@@ -22,7 +22,7 @@ def load_trial_data(json_folder: str) -> List[Dict]:
     return trial_data
 
 
-def score_trial(trial: Dict) -> float:
+def score_trial(trial: Dict, use_geographic_penalty: bool = False) -> float:
     def calculate_ratio(
         criteria_list, positive_classifications, negative_classifications
     ):
@@ -61,14 +61,31 @@ def score_trial(trial: Dict) -> float:
     exclusion_ratio = calculate_ratio(
         exclusion_criteria, ["Not Violated", "Met"], ["Violated"]
     )
-    return (inclusion_ratio + exclusion_ratio) / 2
+
+    base_score = (inclusion_ratio + exclusion_ratio) / 2
+    if use_geographic_penalty and "Geographic_Assessment" in trial:
+        geo_assessment = trial.get("Geographic_Assessment", {})
+        geo_match = geo_assessment.get("Geographic_Match", "Unknown Geography")
+
+        geo_mult = {
+            "Strong Geographic Match": 1.00,      # No penalty
+            "Moderate Geographic Match": 0.85,    # 10% penalty
+            "Weak Geographic Match": 0.75,        # 25% penalty
+            "Geographic Mismatch": 0.60,          # 40% penalty
+            "Unknown Geography": 0.92,            # 8% penalty
+        }
+
+        mult = geo_mult.get(geo_match, 0.92)
+        return base_score * mult
+        
+    return base_score
 
 
-def rank_trials(trial_data: List[Dict]) -> List[Dict]:
+def rank_trials(trial_data: List[Dict], use_geographic_penalty: bool = False) -> List[Dict]:
     ranked_trials = []
     for trial in trial_data:
         trial_id = trial.get("TrialID", "Unknown")
-        score = score_trial(trial)
+        score = score_trial(trial, use_geographic_penalty)
         ranked_trials.append({"TrialID": trial_id, "Score": score})
     ranked_trials.sort(key=lambda x: x["Score"], reverse=True)
     return ranked_trials

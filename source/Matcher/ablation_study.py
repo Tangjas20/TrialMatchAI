@@ -646,6 +646,8 @@ class AblationStudyRunner:
             ablation_metrics.end_timer("cot")
             return
 
+        patient_location_dict = patient_info.get("location", {})
+
         cot_backend = (self.ablation_config.get("cot_backend") or "hf").lower()
         use_cot_flag = bool(self.ablation_config.get("use_cot_reasoning", True))
 
@@ -670,6 +672,9 @@ class AblationStudyRunner:
                 seed=int(vllm_cfg.get("seed", 1234)),
                 length_bucket=bool(vllm_cfg.get("length_bucket", True)),
                 lora_request=self.vllm_lora_request,
+                use_geographic_reasoning=bool(self.config["cot"].get("use_geographic_reasoning", False)),
+                patient_location=patient_location_dict,
+                trial_locations_cache=self.config["cot"].get("trial_locations_cache_dir", None)
             )
         else:
             # HF backend (original)
@@ -688,6 +693,7 @@ class AblationStudyRunner:
             json_folder=self.config["paths"]["trials_json_folder"],
             output_folder=output_folder,
             patient_profile=patient_profile,
+            patient_location_dict=patient_location_dict,
         )
 
         write_json_file(
@@ -838,7 +844,7 @@ class AblationStudyRunner:
             ranked_trials = read_json_file(ranked_path)
         else:
             trial_data = load_trial_data(output_folder)
-            ranked_trials = rank_trials(trial_data)
+            ranked_trials = rank_trials(trial_data, use_geographic_penalty=self.config["cot"].get("use_geographic_reasoning", False))
             save_ranked_trials(ranked_trials, ranked_path)
 
         # Evaluation (if ground truth available) and persist metrics

@@ -4,9 +4,11 @@ import json
 import os
 import time
 from typing import Dict, List, Optional
+import re
 
 from Matcher.utils.file_utils import read_json_file, write_json_file, write_text_file
 from Matcher.utils.logging_config import setup_logging
+from Matcher.pipeline.trial_ranker import score_trial
 from tqdm import tqdm
 
 from vllm import LLM, SamplingParams
@@ -33,6 +35,9 @@ class BatchTrialProcessorVLLM:
         seed: Optional[int] = 1234,
         length_bucket: bool = True,
         lora_request: Optional[LoRARequest] = None,  # type: ignore
+        use_geographic_reasoning: bool = False,
+        patient_location: Optional[str] = None,
+        trial_locations_cache: Optional[str] = None,
     ):
         """
         vLLM-backed trial processor for CoT eligibility evaluation.
@@ -49,6 +54,18 @@ class BatchTrialProcessorVLLM:
         self.top_p = top_p
         self.seed = seed
         self.length_bucket = length_bucket
+        self.use_geographic_reasoning = use_geographic_reasoning
+        self.patient_location = patient_location or "unspecified location"
+
+        # Load trial location cache if specified
+        self.trial_locations_cache = {}
+        if trial_locations_cache and os.path.exists(trial_locations_cache):
+            try:
+                with open(trial_locations_cache, "r") as f:
+                    self.trial_locations_cache = json.load(f)
+                logger.info(f"Loaded trial locations cache from {trial_locations_cache}")
+            except Exception as e:
+                logger.error(f"Failed to load trial locations cache: {e}")
 
         # Validate LoRA request during initialization
         self.lora_request = self._init_validate_lora_request(lora_request)
@@ -107,17 +124,50 @@ class BatchTrialProcessorVLLM:
         except Exception as e:
             logger.error(f"Error loading {nct_id}: {str(e)}")
             return ""
+        
+    def _get_trial_location_text(self, nct_id: str) -> str:
+        """
+        Get formatted trial location text for prompt.
+        
+        Returns:
+            String like "Trial sites: United States (Houston, Boston), China (Beijing)"
+            or "Trial sites: Not specified"
+        """
+        if not self.trial_locations_cache:
+            return "Trial sites: Not specified"
+        
+        location_data = self.trial_locations_cache.get(nct_id)
+        
+        if not location_data:
+            return "Trial sites: Not specified"
+        
+        countries = location_data.get('countries', [])
+        
+        if not countries:
+            return "Trial sites: Not specified"
+        
+        # Format: "United States, China, United Kingdom"
+        countries_str = ", ".join(countries[:5])  # Limit to 5 countries
+        
+        if len(countries) > 5:
+            countries_str += f" and {len(countries) - 5} more countries"
+        
+        return f"Trial sites: {countries_str}"
 
     # ---------------------- Prompting ----------------------
 
-    def _format_prompt(self, criteria_text: str, patient_profile: str) -> str:
+    def _format_prompt(self, criteria_text: str, patient_profile: str, trial_nct_id: str = None) -> str:
         criteria_text_formatted = (
             f"Eligibility Criteria:\n{criteria_text}"
             if criteria_text
             else "No eligibility criteria provided."
         )
 
-        if self.use_cot:
+        trial_location_text = ""
+        if self.use_geographic_reasoning and trial_nct_id:
+            trial_location_text = self._get_trial_location_text(trial_nct_id)
+
+        if self.use_cot and not self.use_geographic_reasoning:
             system_msg = (
                 "You are a medical expert with advanced knowledge in clinical reasoning, diagnostics, and treatment planning. "
                 "Answer the following question. Before answering, create a concise chain of thoughts reasoning to ensure a logical and accurate response.\n"
@@ -169,6 +219,98 @@ class BatchTrialProcessorVLLM:
                     ),
                 },
             ]
+        elif self.use_cot and self.use_geographic_reasoning:
+            system_msg = (
+            "You are a medical expert with advanced knowledge in clinical reasoning, diagnostics, and treatment planning. "
+            "Answer the following question. Before answering, create a concise chain of thoughts reasoning to ensure a logical and accurate response.\n"
+            )
+            
+            # Build user content - same structure as original, just add geographic section
+            user_content_parts = [
+                "Assess the given patient's eligibility for a clinical trial by evaluating each and every criterion individually.\n\n"
+            ]
+            
+            # Original inclusion criteria instructions
+            user_content_parts.append(
+                "### INCLUSION CRITERIA ASSESSMENT\n"
+                "For each inclusion criterion, classify it as one of:\n"
+                "- **Met:** The patient's data explicitly and unequivocally satisfies the criterion.\n"
+                "- **Not Met:** The patient's data explicitly and unequivocally contradicts or fails to satisfy the criterion.\n"
+                "- **Unclear:** Insufficient or missing patient data to verify.\n"
+                "- **Irrelevant:** The criterion does not apply to the patient's context.\n\n"
+            )
+            
+            # Original exclusion criteria instructions
+            user_content_parts.append(
+                "### EXCLUSION CRITERIA ASSESSMENT\n"
+                "For each exclusion criterion, classify it as one of:\n"
+                "- **Violated:** The patient's data explicitly and unequivocally violates the criterion.\n"
+                "- **Not Violated:** The patient's data confirms compliance with the criterion.\n"
+                "- **Unclear:** Insufficient or missing patient data to verify.\n"
+                "- **Irrelevant:** The criterion does not apply to the patient's context.\n\n"
+            )
+            
+            # ADD GEOGRAPHIC ASSESSMENT
+            user_content_parts.append(
+                "### GEOGRAPHIC APPROPRIATENESS ASSESSMENT\n"
+                f"**Patient Location:** {self.patient_location}\n\n"
+                f"**Trial Location Info:** {trial_location_text}\n\n"
+                "After evaluating eligibility criteria, assess geographic appropriateness:\n\n"
+                "Look for trial site location information in the eligibility criteria:\n"
+                "- Phrases mentioning countries, cities, or regions (e.g., 'sites in United States')\n"
+                "- Contact information revealing locations\n"
+                "- Facility names indicating geography\n"
+                "- Any geographic restrictions or requirements\n\n"
+                "Classify the geographic match as:\n"
+                "- **Strong Geographic Match:** Trial explicitly operates in patient's country/region\n"
+                "- **Moderate Geographic Match:** Trial is multi-national and likely includes patient's region\n"
+                "- **Weak Geographic Match:** Trial operates in distant region from patient\n"
+                "- **Geographic Mismatch:** Trial explicitly excludes patient's region\n"
+                "- **Unknown Geography:** No location information found in criteria\n\n"
+                "**Note:** Geographic appropriateness affects practical accessibility. A trial in a different country may be logistically difficult even if the patient is eligible.\n\n"
+            )
+            
+            # Original important instructions
+            user_content_parts.append(
+                "### IMPORTANT INSTRUCTIONS\n"
+                "- Ensure all criteria are assessed one-by-one.\n"
+                "- Use **only** the provided patient data; **do not infer, assume, or extrapolate beyond the given information.**\n"
+                "- Justifications must be strictly based on direct evidence from the patient profile.\n"
+            )
+            
+            # Response format (updated to include geography if enabled)
+            response_format = (
+                "### RESPONSE FORMAT (STRICTLY FOLLOW)\n"
+                "{\n"
+                '  "Inclusion_Criteria_Evaluation": [\n'
+                '    {"Criterion": "Exact inclusion criterion text", "Classification": "Met | Not Met | Unclear | Irrelevant", "Justification": "Clear, evidence-based rationale using ONLY provided data"}\n'
+                "  ],\n"
+                '  "Exclusion_Criteria_Evaluation": [\n'
+                '    {"Criterion": "Exact exclusion criterion text", "Classification": "Violated | Not Violated | Unclear | Irrelevant", "Justification": "Clear, evidence-based rationale using ONLY provided data"}\n'
+                "  ],\n"
+                '  "Geographic_Assessment": {\n'
+                f'    "Patient_Location": "{self.patient_location}",\n'
+                f'    "Trial_Locations_Found": "{trial_location_text}",\n'
+                '    "Geographic_Match": "Strong Geographic Match | Moderate Geographic Match | Weak Geographic Match | Geographic Mismatch | Unknown Geography",\n'
+                '    "Geographic_Justification": "Brief explanation of geographic match"\n'
+                "  },\n"
+                '  "Recap": "Concise summary of key qualifying/disqualifying factors and geographic appropriateness",\n'
+                '  "Final Decision": "Eligible | Likely Eligible (leaning toward inclusion) | Likely Ineligible (leaning toward exclusion) | Ineligible"\n'
+                "}\n\n"
+                "---Start of Patient Description---\n"
+                f"{patient_profile}\n"
+                "Written informed consent has been obtained from the patient or their legal representative.\n"
+                "---End of Patient Description---\n"
+                "## IMPORTANT REMINDER:\n"
+                "NEVER make assumptions, inferences, or extrapolations beyond the explicitly stated patient information." \
+                "Pay special attention to geographic factors affecting trial accessibility.\n"
+            )
+            user_content_parts.append(response_format)
+            chat = [
+                {"role": "system", "content": system_msg},
+                {"role": "user", "content": "".join(user_content_parts)}
+            ]
+
         else:
             chat = [
                 {
@@ -421,7 +563,20 @@ class BatchTrialProcessorVLLM:
         json_folder: str,
         output_folder: str,
         patient_profile: List[str],
+        patient_location_dict : Optional[Dict[str, str]] = None,
     ):
+        
+        if patient_location_dict:
+            city = patient_location_dict.get("city", "")
+            state = patient_location_dict.get("state", "")
+            country = patient_location_dict.get("country", "")
+            if country.lower() == 'united_states' and state:
+                self.patient_location = f"{city}, {state}, United States"
+            else:
+                self.patient_location = f"{city}, {country}"
+
+            logger.info(f"Using patient location: {self.patient_location}")
+
         patient_text = " ".join(
             str(line).strip() for line in patient_profile if str(line).strip()
         )
@@ -434,7 +589,7 @@ class BatchTrialProcessorVLLM:
                 continue
 
             criteria_text = self._load_trial_data(nct_id, json_folder)
-            prompt = self._format_prompt(criteria_text, patient_text)
+            prompt = self._format_prompt(criteria_text, patient_text, trial_nct_id=nct_id)
 
             # Calculate token length with comprehensive type safety
             tok_len = self._safe_calculate_token_length(prompt, nct_id)

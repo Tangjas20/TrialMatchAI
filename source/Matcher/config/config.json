@@ -60,7 +60,10 @@
     "model_name": "BAAI/bge-m3"
   },
   "cot": {
-    "batch_size": 1
+    "batch_size": 4,
+    "max_new_tokens": 6000,
+    "use_geographic_reasoning": true,
+    "trial_locations_cache_dir": "../data/trial_locations_cache.json"
   },
   "LLM_reranker": {
     "batch_size": 20
