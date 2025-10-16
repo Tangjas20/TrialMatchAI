@@ -108,7 +108,7 @@ class ClinicalTrialSearch:
         self,
         synonyms: List[str],
         embeddings: Dict[str, List[float]],
-        age: int,
+        age: Optional[int],  # <-- Add type hint
         sex: str,
         overall_status: Optional[str],
         max_text_score: float,
@@ -139,7 +139,7 @@ class ClinicalTrialSearch:
             ],
         }.get(sex, ["All"])
         filters = []
-        if age not in [None, "all", "ALL", "All"]:
+        if age is not None:
             filters.append(
                 {
                     "bool": {
@@ -389,7 +389,7 @@ class ClinicalTrialSearch:
         query = self.create_query(
             primary_synonyms,
             embeddings,
-            age if age is not None else 0,
+            age,
             sex,
             overall_status,
             max_text_score,
