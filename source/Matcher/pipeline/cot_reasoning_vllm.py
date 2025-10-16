@@ -361,6 +361,7 @@ class BatchTrialProcessorVLLM:
     def _process_batch(self, batch: List[Dict], output_folder: str):
         try:
             prompts = [item["prompt"] for item in batch]
+            nct_ids = [item["nct_id"] for item in batch]
             t0 = time.time()
 
             # Log batch info for debugging
@@ -394,7 +395,7 @@ class BatchTrialProcessorVLLM:
             decoded_responses: List[str] = []
             in_tok_lens: List[int] = []
             out_tok_lens: List[int] = []
-            failed_indices : List[int] = []
+            failed_items : List[Dict] = []
 
             for i, r in enumerate(results):
                 try:
@@ -451,30 +452,52 @@ class BatchTrialProcessorVLLM:
                     out_tok_lens.append(0)
 
             # Save outputs while tracking failures
-            for i, (item, response) in enumerate(zip(batch, decoded_responses)):
-                save_success = self._save_outputs(item["nct_id"], response, output_folder)
+            for i, (nct_id, response) in enumerate(zip(nct_ids, decoded_responses)):
+                save_success = self._save_outputs(nct_id, response, output_folder)
                 if not save_success:
-                    failed_indices.append(i)
+                    failed_items.append(batch[i])
 
             # Retry failed saves
-            if failed_indices and hasattr(self, 'max_json_retries') and self.max_json_retries > 0:
+            if failed_items and hasattr(self, 'max_json_retries') and self.max_json_retries > 0:
                 for attempt in range(1, self.max_json_retries + 1):
-                    if not failed_indices:
+                    if not failed_items:
                         break
-                    logger.info(f"Retry attempt {attempt} for {len(failed_indices)} failed items...")
-                    retry_items = [batch[i] for i in failed_indices]
-                    retry_prompts = [item["prompt"] + "\n\nIMPORTANT: Output ONLY valid JSON. Be concise. Complete the structure." 
-                            for item in retry_items]
+                        
+                    logger.info(f"Retry attempt {attempt}/{self.max_json_retries} for {len(failed_items)} failed items...")
+                    
+                    retry_prompts = [
+                        item["prompt"] + "\n\nIMPORTANT: Output ONLY valid JSON. Be concise. Complete the structure." 
+                        for item in failed_items
+                    ]
+                    retry_nct_ids = [item["nct_id"] for item in failed_items]
+                    
                     retry_results = self.llm.generate(retry_prompts, self.sampling_params, lora_request=safe_lora_request)
-
-                    for item, r in zip(retry_items, retry_results):
+                    
+                    # Track which items succeeded in this retry attempt
+                    still_failed: List[Dict] = []
+                    
+                    for item_dict, nct_id, r in zip(failed_items, retry_nct_ids, retry_results):
                         retry_response = r.outputs[0].text if r.outputs else ""
-                        success = self._save_outputs(item["nct_id"], retry_response, output_folder)
+                        success = self._save_outputs(nct_id, retry_response, output_folder)
+                        
                         if success:
-                            logger.info(f"Retry succeeded for {item['nct_id']}")
-                            failed_indices.remove(batch.index(item))
+                            logger.info(f"✅ {nct_id}: Retry attempt {attempt} succeeded")
                         else:
-                            logger.warning(f"Retry failed again for {item['nct_id']}")
+                            logger.warning(f"❌ {nct_id}: Retry attempt {attempt} failed")
+                            still_failed.append(item_dict)  # Keep for next retry
+                    
+                    # Update failed_items for next iteration
+                    failed_items = still_failed
+                    
+                    if not failed_items:
+                        logger.info(f"All retries succeeded after {attempt} attempt(s)")
+                        break
+                
+                # Log final failures after all retries exhausted
+                if failed_items:
+                    logger.error(f"❌ {len(failed_items)} items failed after {self.max_json_retries} retry attempts:")
+                    for item in failed_items:
+                        logger.error(f"  - {item['nct_id']}")
 
             # Safely calculate totals
             try:
