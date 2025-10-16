@@ -45,6 +45,7 @@
     "padding_side": "left"
   },
   "global": {
+    "use_vllm": true,
     "device": 0
   },
   "elasticsearch": {
@@ -70,5 +71,17 @@
   },
   "search": {
     "vector_score_threshold": 0.5
+  },
+  "vllm": {
+  "gpu_memory_utilization": 0.7,
+  "max_seq_len": 4096,
+  "max_num_batched_tokens": 4096,
+  "enforce_eager": true,
+  "enable_prefix_caching": false,
+  "batch_size": 32,           
+  "temperature": 0.0,         
+  "top_p": 1.0,              
+  "length_bucket": true,     
+  "max_json_retries": 3
   }
 }
