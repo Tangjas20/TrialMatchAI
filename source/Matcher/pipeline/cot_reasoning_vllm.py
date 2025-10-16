@@ -38,6 +38,7 @@ class BatchTrialProcessorVLLM:
         use_geographic_reasoning: bool = False,
         patient_location: Optional[str] = None,
         trial_locations_cache: Optional[str] = None,
+        max_json_retries: int = 3,
     ):
         """
         vLLM-backed trial processor for CoT eligibility evaluation.
@@ -56,6 +57,7 @@ class BatchTrialProcessorVLLM:
         self.length_bucket = length_bucket
         self.use_geographic_reasoning = use_geographic_reasoning
         self.patient_location = patient_location or "unspecified location"
+        self.max_json_retries = max_json_retries
 
         # Load trial location cache if specified
         self.trial_locations_cache = {}
@@ -392,6 +394,7 @@ class BatchTrialProcessorVLLM:
             decoded_responses: List[str] = []
             in_tok_lens: List[int] = []
             out_tok_lens: List[int] = []
+            failed_indices : List[int] = []
 
             for i, r in enumerate(results):
                 try:
@@ -447,9 +450,31 @@ class BatchTrialProcessorVLLM:
                     in_tok_lens.append(0)
                     out_tok_lens.append(0)
 
-            # Save outputs
-            for item, response in zip(batch, decoded_responses):
-                self._save_outputs(item["nct_id"], response, output_folder)
+            # Save outputs while tracking failures
+            for i, (item, response) in enumerate(zip(batch, decoded_responses)):
+                save_success = self._save_outputs(item["nct_id"], response, output_folder)
+                if not save_success:
+                    failed_indices.append(i)
+
+            # Retry failed saves
+            if failed_indices and hasattr(self, 'max_json_retries') and self.max_json_retries > 0:
+                for attempt in range(1, self.max_json_retries + 1):
+                    if not failed_indices:
+                        break
+                    logger.info(f"Retry attempt {attempt} for {len(failed_indices)} failed items...")
+                    retry_items = [batch[i] for i in failed_indices]
+                    retry_prompts = [item["prompt"] + "\n\nIMPORTANT: Output ONLY valid JSON. Be concise. Complete the structure." 
+                            for item in retry_items]
+                    retry_results = self.llm.generate(retry_prompts, self.sampling_params, lora_request=safe_lora_request)
+
+                    for item, r in zip(retry_items, retry_results):
+                        retry_response = r.outputs[0].text if r.outputs else ""
+                        success = self._save_outputs(item["nct_id"], retry_response, output_folder)
+                        if success:
+                            logger.info(f"Retry succeeded for {item['nct_id']}")
+                            failed_indices.remove(batch.index(item))
+                        else:
+                            logger.warning(f"Retry failed again for {item['nct_id']}")
 
             # Safely calculate totals
             try:
@@ -536,24 +561,50 @@ class BatchTrialProcessorVLLM:
     # ---------------------- Persistence ----------------------
 
     def _save_outputs(self, nct_id: str, response: str, output_folder: str):
+        """Save CoT outputs with robust JSON parsing."""
         try:
             os.makedirs(output_folder, exist_ok=True)
-            txt_path = f"{output_folder}/{nct_id}.txt"
-            write_text_file([response], txt_path)
-            try:
-                start = response.find("{")
-                end = response.rfind("}")
-                if start != -1 and end != -1 and end > start:
-                    json_str = response[start : end + 1]
-                    json_data = json.loads(json_str)
+            write_text_file([response], f"{output_folder}/{nct_id}.txt")
+            
+            start, end = response.find("{"), response.rfind("}")
+            if start == -1 or end == -1 or end <= start:
+                logger.error(f"Invalid JSON boundaries for {nct_id}")
+                return
+                
+            json_str = response[start : end + 1]
+            
+            # Progressive cleaning strategies
+            cleaning_strategies = [
+                # 1. Try as-is
+                lambda x: x,
+                # 2. Fix escape sequences
+                lambda x: re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', x),
+                # 3. Fix unclosed arrays - add missing closing brackets
+                lambda x: _fix_unclosed_arrays(x),
+                # 4. Combination: fix escapes + arrays
+                lambda x: _fix_unclosed_arrays(re.sub(r'\\(?!["\\/bfnrtu])', r'\\\\', x)),
+            ]
+            
+            for i, clean_func in enumerate(cleaning_strategies, 1):
+                try:
+                    cleaned = clean_func(json_str)
+                    json_data = json.loads(cleaned)
                     write_json_file(json_data, f"{output_folder}/{nct_id}.json")
-                    logger.info(f"Processed {nct_id} successfully")
-                else:
-                    logger.error(f"Invalid JSON boundaries for {nct_id}")
-            except json.JSONDecodeError as e:
-                logger.error(f"Invalid JSON response for {nct_id}: {str(e)}")
+                    if i > 1:
+                        logger.info(f"Processed {nct_id} successfully (strategy {i})")
+                    return True
+                except json.JSONDecodeError as e:
+                    if i == len(cleaning_strategies):
+                        # Last attempt failed - log details
+                        logger.warning(f"JSON parsing failed for {nct_id} with current cleaning step. Here is the problematic JSON snippet:")
+                        logger.warning(json_str[-500:] if len(json_str) > 500 else json_str)
+                    continue
+            
+            logger.error(f"Invalid JSON response for {nct_id}")
+            return False
         except Exception as e:
             logger.error(f"Failed to save {nct_id}: {str(e)}")
+            return False
 
     # ---------------------- Public API ----------------------
 
@@ -722,3 +773,32 @@ class BatchTrialProcessorVLLM:
                 except Exception as e:
                     logger.error(f"Failed to convert tok_len for {item['nct_id']}: {e}")
                     item["tok_len"] = max(1, len(item["prompt"]) // 4)
+
+def _fix_unclosed_arrays(json_str: str) -> str:
+        """
+        Fix common JSON issues with unclosed arrays and objects.
+        Handles cases where LLM output gets cut off mid-generation.
+        """
+        # Count opening and closing brackets
+        open_braces = json_str.count('{')
+        close_braces = json_str.count('}')
+        open_brackets = json_str.count('[')
+        close_brackets = json_str.count(']')
+        
+        # If we have unclosed structures, try to close them
+        result = json_str
+        
+        # Close arrays first (most common issue in your case)
+        if open_brackets > close_brackets:
+            # Check if we're inside an array of objects
+            # Look for the last complete object
+            last_obj_end = result.rfind('}')
+            if last_obj_end != -1:
+                # Add closing brackets after the last object
+                result = result[:last_obj_end + 1] + '\n  ]' * (open_brackets - close_brackets) + result[last_obj_end + 1:]
+        
+        # Close objects
+        if open_braces > close_braces:
+            result = result + '\n}' * (open_braces - close_braces)
+        
+        return result
