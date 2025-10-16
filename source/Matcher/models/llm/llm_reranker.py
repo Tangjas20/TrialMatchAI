@@ -83,8 +83,10 @@ class LLMReranker:
             attn_implementation="flash_attention_2" if use_cuda else None,
             trust_remote_code=True,
         )
+        if not quant_config:  # Explicity move base model to device if not using quantization to avoid wrong mapping
+            model = model.to(self.device_str)
         if self.adapter_path:
-            model = PeftModel.from_pretrained(model, self.adapter_path)
+            model = PeftModel.from_pretrained(model, self.adapter_path, device_map=None if quant_config else {"": self.device_str})
         model.eval()
         return model
 
