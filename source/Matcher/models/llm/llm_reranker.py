@@ -1,4 +1,5 @@
 import re
+import os
 import threading
 import unicodedata
 from concurrent.futures import ThreadPoolExecutor, as_completed
@@ -30,12 +31,25 @@ class LLMReranker:
         # Resolve device string
         if torch.cuda.is_available():
             cuda_count = torch.cuda.device_count()
-            idx = int(device) if isinstance(device, int) else 0
-            if idx < 0 or idx >= cuda_count:
-                logger.warning(
-                    f"LLMReranker: requested CUDA device {device} invalid; using 0 (num_gpus={cuda_count})."
-                )
-                idx = 0
+            # If CUDA_VISIBLE_DEVICES is set, always use device 0
+            if "CUDA_VISIBLE_DEVICES" in os.environ:
+                visible = os.environ["CUDA_VISIBLE_DEVICES"]
+                visible_gpus = [x.strip() for x in visible.split(",") if x.strip()]
+                if len(visible_gpus) == 1:
+                    logger.info(f"CUDA_VISIBLE_DEVICES={visible}, forcing reranker to cuda:0")
+                    idx = 0
+                else:
+                    idx = int(device) if isinstance(device, int) else 0
+                    if idx >= cuda_count:
+                        logger.warning(f"Requested device {device} >= available {cuda_count}, using 0")
+                        idx = 0
+            else:
+                idx = int(device) if isinstance(device, int) else 0
+                if idx < 0 or idx >= cuda_count:
+                    logger.warning(
+                        f"LLMReranker: requested CUDA device {device} invalid; using 0 (num_gpus={cuda_count})."
+                    )
+                    idx = 0
             self.device_str = f"cuda:{idx}"
             # Ensure Accelerate/HF loaders use the selected GPU when device_map='auto'
             try:
@@ -79,14 +93,15 @@ class LLMReranker:
             self.model_path,
             torch_dtype=self.torch_dtype if use_cuda else torch.float32,
             quantization_config=quant_config,
-            device_map=None, #avoid auto to control device placement manually
+            device_map={"": self.device_str} if use_cuda else None, #avoid auto to control device placement manually
             attn_implementation="flash_attention_2" if use_cuda else None,
             trust_remote_code=True,
+            low_cpu_mem_usage=True,
         )
         if not quant_config:  # Explicity move base model to device if not using quantization to avoid wrong mapping
             model = model.to(self.device_str)
         if self.adapter_path:
-            model = PeftModel.from_pretrained(model, self.adapter_path, device_map=None if quant_config else {"": self.device_str})
+            model = PeftModel.from_pretrained(model, self.adapter_path, device_map=None)
         model.eval()
         return model
 
