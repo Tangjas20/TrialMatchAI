@@ -1,0 +1,505 @@
+{
+  "total_patients": 100,
+  "patients": [
+    {
+      "patient_number": 1,
+      "hadm_id": "20142633",
+      "folder": "patient_1"
+    },
+    {
+      "patient_number": 2,
+      "hadm_id": "20152844",
+      "folder": "patient_2"
+    },
+    {
+      "patient_number": 3,
+      "hadm_id": "20159348",
+      "folder": "patient_3"
+    },
+    {
+      "patient_number": 4,
+      "hadm_id": "20162735",
+      "folder": "patient_4"
+    },
+    {
+      "patient_number": 5,
+      "hadm_id": "20165268",
+      "folder": "patient_5"
+    },
+    {
+      "patient_number": 6,
+      "hadm_id": "20165426",
+      "folder": "patient_6"
+    },
+    {
+      "patient_number": 7,
+      "hadm_id": "20166763",
+      "folder": "patient_7"
+    },
+    {
+      "patient_number": 8,
+      "hadm_id": "20172645",
+      "folder": "patient_8"
+    },
+    {
+      "patient_number": 9,
+      "hadm_id": "20173078",
+      "folder": "patient_9"
+    },
+    {
+      "patient_number": 10,
+      "hadm_id": "20173644",
+      "folder": "patient_10"
+    },
+    {
+      "patient_number": 11,
+      "hadm_id": "20179902",
+      "folder": "patient_11"
+    },
+    {
+      "patient_number": 12,
+      "hadm_id": "20180976",
+      "folder": "patient_12"
+    },
+    {
+      "patient_number": 13,
+      "hadm_id": "20186327",
+      "folder": "patient_13"
+    },
+    {
+      "patient_number": 14,
+      "hadm_id": "20187040",
+      "folder": "patient_14"
+    },
+    {
+      "patient_number": 15,
+      "hadm_id": "20188159",
+      "folder": "patient_15"
+    },
+    {
+      "patient_number": 16,
+      "hadm_id": "20188359",
+      "folder": "patient_16"
+    },
+    {
+      "patient_number": 17,
+      "hadm_id": "20189712",
+      "folder": "patient_17"
+    },
+    {
+      "patient_number": 18,
+      "hadm_id": "20192903",
+      "folder": "patient_18"
+    },
+    {
+      "patient_number": 19,
+      "hadm_id": "20194009",
+      "folder": "patient_19"
+    },
+    {
+      "patient_number": 20,
+      "hadm_id": "20197021",
+      "folder": "patient_20"
+    },
+    {
+      "patient_number": 21,
+      "hadm_id": "20200233",
+      "folder": "patient_21"
+    },
+    {
+      "patient_number": 22,
+      "hadm_id": "20201177",
+      "folder": "patient_22"
+    },
+    {
+      "patient_number": 23,
+      "hadm_id": "20203252",
+      "folder": "patient_23"
+    },
+    {
+      "patient_number": 24,
+      "hadm_id": "20207708",
+      "folder": "patient_24"
+    },
+    {
+      "patient_number": 25,
+      "hadm_id": "20216091",
+      "folder": "patient_25"
+    },
+    {
+      "patient_number": 26,
+      "hadm_id": "20236686",
+      "folder": "patient_26"
+    },
+    {
+      "patient_number": 27,
+      "hadm_id": "20241518",
+      "folder": "patient_27"
+    },
+    {
+      "patient_number": 28,
+      "hadm_id": "20244123",
+      "folder": "patient_28"
+    },
+    {
+      "patient_number": 29,
+      "hadm_id": "20250324",
+      "folder": "patient_29"
+    },
+    {
+      "patient_number": 30,
+      "hadm_id": "20250765",
+      "folder": "patient_30"
+    },
+    {
+      "patient_number": 31,
+      "hadm_id": "20253773",
+      "folder": "patient_31"
+    },
+    {
+      "patient_number": 32,
+      "hadm_id": "20258061",
+      "folder": "patient_32"
+    },
+    {
+      "patient_number": 33,
+      "hadm_id": "20258650",
+      "folder": "patient_33"
+    },
+    {
+      "patient_number": 34,
+      "hadm_id": "20268314",
+      "folder": "patient_34"
+    },
+    {
+      "patient_number": 35,
+      "hadm_id": "20271612",
+      "folder": "patient_35"
+    },
+    {
+      "patient_number": 36,
+      "hadm_id": "20279762",
+      "folder": "patient_36"
+    },
+    {
+      "patient_number": 37,
+      "hadm_id": "20280405",
+      "folder": "patient_37"
+    },
+    {
+      "patient_number": 38,
+      "hadm_id": "20281666",
+      "folder": "patient_38"
+    },
+    {
+      "patient_number": 39,
+      "hadm_id": "20284766",
+      "folder": "patient_39"
+    },
+    {
+      "patient_number": 40,
+      "hadm_id": "20287190",
+      "folder": "patient_40"
+    },
+    {
+      "patient_number": 41,
+      "hadm_id": "21416766",
+      "folder": "patient_41"
+    },
+    {
+      "patient_number": 42,
+      "hadm_id": "21417480",
+      "folder": "patient_42"
+    },
+    {
+      "patient_number": 43,
+      "hadm_id": "21418601",
+      "folder": "patient_43"
+    },
+    {
+      "patient_number": 44,
+      "hadm_id": "21421480",
+      "folder": "patient_44"
+    },
+    {
+      "patient_number": 45,
+      "hadm_id": "21422626",
+      "folder": "patient_45"
+    },
+    {
+      "patient_number": 46,
+      "hadm_id": "21427477",
+      "folder": "patient_46"
+    },
+    {
+      "patient_number": 47,
+      "hadm_id": "21429491",
+      "folder": "patient_47"
+    },
+    {
+      "patient_number": 48,
+      "hadm_id": "21431986",
+      "folder": "patient_48"
+    },
+    {
+      "patient_number": 49,
+      "hadm_id": "21433430",
+      "folder": "patient_49"
+    },
+    {
+      "patient_number": 50,
+      "hadm_id": "21434190",
+      "folder": "patient_50"
+    },
+    {
+      "patient_number": 51,
+      "hadm_id": "21434498",
+      "folder": "patient_51"
+    },
+    {
+      "patient_number": 52,
+      "hadm_id": "21434659",
+      "folder": "patient_52"
+    },
+    {
+      "patient_number": 53,
+      "hadm_id": "21436096",
+      "folder": "patient_53"
+    },
+    {
+      "patient_number": 54,
+      "hadm_id": "21443559",
+      "folder": "patient_54"
+    },
+    {
+      "patient_number": 55,
+      "hadm_id": "21445622",
+      "folder": "patient_55"
+    },
+    {
+      "patient_number": 56,
+      "hadm_id": "21448881",
+      "folder": "patient_56"
+    },
+    {
+      "patient_number": 57,
+      "hadm_id": "21454073",
+      "folder": "patient_57"
+    },
+    {
+      "patient_number": 58,
+      "hadm_id": "21456159",
+      "folder": "patient_58"
+    },
+    {
+      "patient_number": 59,
+      "hadm_id": "21462336",
+      "folder": "patient_59"
+    },
+    {
+      "patient_number": 60,
+      "hadm_id": "21464938",
+      "folder": "patient_60"
+    },
+    {
+      "patient_number": 61,
+      "hadm_id": "21468812",
+      "folder": "patient_61"
+    },
+    {
+      "patient_number": 62,
+      "hadm_id": "21469055",
+      "folder": "patient_62"
+    },
+    {
+      "patient_number": 63,
+      "hadm_id": "21473117",
+      "folder": "patient_63"
+    },
+    {
+      "patient_number": 64,
+      "hadm_id": "21473903",
+      "folder": "patient_64"
+    },
+    {
+      "patient_number": 65,
+      "hadm_id": "21479144",
+      "folder": "patient_65"
+    },
+    {
+      "patient_number": 66,
+      "hadm_id": "21480358",
+      "folder": "patient_66"
+    },
+    {
+      "patient_number": 67,
+      "hadm_id": "21481885",
+      "folder": "patient_67"
+    },
+    {
+      "patient_number": 68,
+      "hadm_id": "21482053",
+      "folder": "patient_68"
+    },
+    {
+      "patient_number": 69,
+      "hadm_id": "21482331",
+      "folder": "patient_69"
+    },
+    {
+      "patient_number": 70,
+      "hadm_id": "21482937",
+      "folder": "patient_70"
+    },
+    {
+      "patient_number": 71,
+      "hadm_id": "21488634",
+      "folder": "patient_71"
+    },
+    {
+      "patient_number": 72,
+      "hadm_id": "21498811",
+      "folder": "patient_72"
+    },
+    {
+      "patient_number": 73,
+      "hadm_id": "21503149",
+      "folder": "patient_73"
+    },
+    {
+      "patient_number": 74,
+      "hadm_id": "21504190",
+      "folder": "patient_74"
+    },
+    {
+      "patient_number": 75,
+      "hadm_id": "21509016",
+      "folder": "patient_75"
+    },
+    {
+      "patient_number": 76,
+      "hadm_id": "21512825",
+      "folder": "patient_76"
+    },
+    {
+      "patient_number": 77,
+      "hadm_id": "21520110",
+      "folder": "patient_77"
+    },
+    {
+      "patient_number": 78,
+      "hadm_id": "21528150",
+      "folder": "patient_78"
+    },
+    {
+      "patient_number": 79,
+      "hadm_id": "21537662",
+      "folder": "patient_79"
+    },
+    {
+      "patient_number": 80,
+      "hadm_id": "21538180",
+      "folder": "patient_80"
+    },
+    {
+      "patient_number": 81,
+      "hadm_id": "21539874",
+      "folder": "patient_81"
+    },
+    {
+      "patient_number": 82,
+      "hadm_id": "21546477",
+      "folder": "patient_82"
+    },
+    {
+      "patient_number": 83,
+      "hadm_id": "21549915",
+      "folder": "patient_83"
+    },
+    {
+      "patient_number": 84,
+      "hadm_id": "21550312",
+      "folder": "patient_84"
+    },
+    {
+      "patient_number": 85,
+      "hadm_id": "21551153",
+      "folder": "patient_85"
+    },
+    {
+      "patient_number": 86,
+      "hadm_id": "21552747",
+      "folder": "patient_86"
+    },
+    {
+      "patient_number": 87,
+      "hadm_id": "21562835",
+      "folder": "patient_87"
+    },
+    {
+      "patient_number": 88,
+      "hadm_id": "21579521",
+      "folder": "patient_88"
+    },
+    {
+      "patient_number": 89,
+      "hadm_id": "21587188",
+      "folder": "patient_89"
+    },
+    {
+      "patient_number": 90,
+      "hadm_id": "21593242",
+      "folder": "patient_90"
+    },
+    {
+      "patient_number": 91,
+      "hadm_id": "21593587",
+      "folder": "patient_91"
+    },
+    {
+      "patient_number": 92,
+      "hadm_id": "21598829",
+      "folder": "patient_92"
+    },
+    {
+      "patient_number": 93,
+      "hadm_id": "21602368",
+      "folder": "patient_93"
+    },
+    {
+      "patient_number": 94,
+      "hadm_id": "21615317",
+      "folder": "patient_94"
+    },
+    {
+      "patient_number": 95,
+      "hadm_id": "21619161",
+      "folder": "patient_95"
+    },
+    {
+      "patient_number": 96,
+      "hadm_id": "21620108",
+      "folder": "patient_96"
+    },
+    {
+      "patient_number": 97,
+      "hadm_id": "21624293",
+      "folder": "patient_97"
+    },
+    {
+      "patient_number": 98,
+      "hadm_id": "21629642",
+      "folder": "patient_98"
+    },
+    {
+      "patient_number": 99,
+      "hadm_id": "21632720",
+      "folder": "patient_99"
+    },
+    {
+      "patient_number": 100,
+      "hadm_id": "21637997",
+      "folder": "patient_100"
+    }
+  ]
+}

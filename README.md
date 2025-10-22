@@ -25,6 +25,7 @@ At this stage, TrialMatchAI is still under active development and largely a **pr
 
 - **OS**: Linux or macOS
 - **Docker & Docker Compose**: For running the Elasticsearch container
+- **Java**: For running the NER and Normalization
 - **Python**: ≥ 3.8
 - **GPU**: NVIDIA (e.g., H100) with ≥ 60 GB VRAM (recommended for large-scale processing)
 - **Disk Space**: ≥ 100 GB free (for data and indices)
@@ -82,6 +83,11 @@ At this stage, TrialMatchAI is still under active development and largely a **pr
    - Builds the Elasticsearch container via Docker Compose  
    - Launches indexing pipelines in the background  
    - **Estimated Time**: ~60–90 minutes (depending on hardware)  
+
+6. **(Optional) Using Flash-Attention 2**
+   If you want to use Flash-Attention for faster and more memory efficient attention, you can install it through pip, as presented in the [package github](https://github.com/Dao-AILab/flash-attention). 
+
+   For some systems however, installing it with standard methods is either impossible or too slow. It is recommended in this case to manually download the **wheel** file compatible with your torch, cuda and python versions, listed in the package [releases](https://github.com/Dao-AILab/flash-attention/releases). Then, you can pip install that file.
 
 ---
 
