@@ -22,6 +22,32 @@ NC='\033[0m' # No Color
 info() { echo -e "${GREEN}[INFO]${NC} $*"; }
 error() { echo -e "[ERROR] $*" >&2; exit 1; }
 
+# Check if file exists and has expected size (within 1% tolerance)
+check_file_complete() {
+  local file="$1"
+  local expected_size="$2"
+
+  if [ ! -f "$file" ]; then
+    return 1
+  fi
+
+  if [ -z "$expected_size" ]; then
+    # No size check, just verify file exists
+    return 0
+  fi
+
+  local actual_size=$(stat -f%z "$file" 2>/dev/null || stat -c%s "$file" 2>/dev/null)
+  local min_size=$((expected_size * 99 / 100))
+  local max_size=$((expected_size * 101 / 100))
+
+  if [ "$actual_size" -ge "$min_size" ] && [ "$actual_size" -le "$max_size" ]; then
+    return 0
+  else
+    info "$file exists but size mismatch (expected ~$expected_size, got $actual_size). Will re-download."
+    return 1
+  fi
+}
+
 #=== MAIN SCRIPT ===#
 info "Starting TrialMatchAI setup..."
 
@@ -43,64 +69,80 @@ fi
 if ! command -v pip &> /dev/null; then
   error "pip not found. Please install Python and pip first."
 fi
-info "Installing Python requirements..."
+info "Installing Python requirements (this will take several minutes)..."
 pip install --upgrade pip
-pip install -r requirements.txt
+info "Installing packages from requirements.txt..."
+pip install -r requirements.txt --progress-bar on
+info "Python packages installed successfully!"
 
 # 2) Prepare data directory
 info "Preparing data directory..."
 mkdir -p data
 cd data
 
-# Download core archives
-if [ ! -f "$ARCHIVE_1" ]; then
-  info "Downloading ${ARCHIVE_1}..."
-  wget --quiet "$DATA_URL_1" -O "$ARCHIVE_1"
+# Download core archives with size verification
+# Expected sizes (in bytes) - update these with actual values or leave empty to skip size check
+EXPECTED_SIZE_TRIALS=""      # e.g., 1234567890
+EXPECTED_SIZE_RESOURCES=""   # e.g., 1234567890
+EXPECTED_SIZE_MODELS=""      # e.g., 1234567890
+
+if check_file_complete "$ARCHIVE_1" "$EXPECTED_SIZE_TRIALS"; then
+  info "${ARCHIVE_1} already exists and appears complete. Skipping download."
 else
-  info "${ARCHIVE_1} already exists. Skipping download."
+  info "Downloading ${ARCHIVE_1} (this may take several minutes)..."
+  wget --continue --progress=bar:force:noscroll "$DATA_URL_1" -O "$ARCHIVE_1" 2>&1 | \
+    grep --line-buffered -E "%" || wget --continue --show-progress "$DATA_URL_1" -O "$ARCHIVE_1"
+  info "Download of ${ARCHIVE_1} complete!"
 fi
 
-if [ ! -f "$RESOURCES_ARCHIVE" ]; then
-  info "Downloading ${RESOURCES_ARCHIVE}..."
-  wget --quiet "$RESOURCES_URL" -O "$RESOURCES_ARCHIVE"
+if check_file_complete "$RESOURCES_ARCHIVE" "$EXPECTED_SIZE_RESOURCES"; then
+  info "${RESOURCES_ARCHIVE} already exists and appears complete. Skipping download."
 else
-  info "${RESOURCES_ARCHIVE} already exists. Skipping download."
+  info "Downloading ${RESOURCES_ARCHIVE} (this may take several minutes)..."
+  wget --continue --progress=bar:force:noscroll "$RESOURCES_URL" -O "$RESOURCES_ARCHIVE" 2>&1 | \
+    grep --line-buffered -E "%" || wget --continue --show-progress "$RESOURCES_URL" -O "$RESOURCES_ARCHIVE"
+  info "Download of ${RESOURCES_ARCHIVE} complete!"
 fi
 
-if [ ! -f "$MODELS_ARCHIVE" ]; then
-  info "Downloading ${MODELS_ARCHIVE}..."
-  wget --quiet "$MODELS_URL" -O "$MODELS_ARCHIVE"
+if check_file_complete "$MODELS_ARCHIVE" "$EXPECTED_SIZE_MODELS"; then
+  info "${MODELS_ARCHIVE} already exists and appears complete. Skipping download."
 else
-  info "${MODELS_ARCHIVE} already exists. Skipping download."
+  info "Downloading ${MODELS_ARCHIVE} (this may take several minutes)..."
+  wget --continue --progress=bar:force:noscroll "$MODELS_URL" -O "$MODELS_ARCHIVE" 2>&1 | \
+    grep --line-buffered -E "%" || wget --continue --show-progress "$MODELS_URL" -O "$MODELS_ARCHIVE"
+  info "Download of ${MODELS_ARCHIVE} complete!"
 fi
 
 # Download and extract processed_criteria ZIP chunks
 if [ ! -d "processed_criteria" ]; then
-  info "Downloading and extracting processed_criteria chunks..."
+  info "Downloading and extracting processed_criteria chunks (${CHUNK_COUNT} files)..."
   mkdir -p processed_criteria
 
   for i in $(seq 0 $((CHUNK_COUNT - 1))); do
     chunk_zip="${CHUNK_PREFIX}_${i}.zip"
     chunk_url="${CRITERIA_ZIP_BASE_URL}/${chunk_zip}?download=1"
 
-    if [ ! -f "$chunk_zip" ]; then
-      info "Downloading $chunk_zip..."
-      wget --quiet "$chunk_url" -O "$chunk_zip"
+    if check_file_complete "$chunk_zip" ""; then
+      info "[$((i+1))/${CHUNK_COUNT}] $chunk_zip already exists. Skipping download."
     else
-      info "$chunk_zip already exists. Skipping download."
+      info "[$((i+1))/${CHUNK_COUNT}] Downloading $chunk_zip..."
+      wget --continue --progress=bar:force:noscroll "$chunk_url" -O "$chunk_zip" 2>&1 | \
+        grep --line-buffered -E "%" || wget --continue --show-progress "$chunk_url" -O "$chunk_zip"
     fi
 
-    info "Extracting $chunk_zip into processed_criteria..."
-    unzip -q "$chunk_zip" -d processed_criteria
+    info "[$((i+1))/${CHUNK_COUNT}] Extracting $chunk_zip..."
+    unzip -q -o "$chunk_zip" -d processed_criteria
   done
+  info "All criteria chunks downloaded and extracted!"
 else
-  info "processed_criteria already exists. Skipping extraction."
+  info "processed_criteria already exists. Skipping download and extraction."
 fi
 
 # Extract processed_trials
 if [ ! -d "processed_trials" ]; then
-  info "Extracting $ARCHIVE_1..."
-  tar -xzvf "$ARCHIVE_1"
+  info "Extracting $ARCHIVE_1 (this may take a few minutes)..."
+  tar -xzf "$ARCHIVE_1"
+  info "Extraction of $ARCHIVE_1 complete!"
 else
   info "processed_trials already exists. Skipping extraction of $ARCHIVE_1."
 fi
@@ -110,11 +152,13 @@ cd ..
 # Extract resources
 info "Extracting resources into source/Parser..."
 mkdir -p source/Parser
-tar -xzvf data/"$RESOURCES_ARCHIVE" -C source/Parser
+tar -xzf data/"$RESOURCES_ARCHIVE" -C source/Parser
+info "Resources extracted!"
 
 info "Extracting models into models/..."
 mkdir -p models
-tar -xzvf data/"$MODELS_ARCHIVE" -C models
+tar -xzf data/"$MODELS_ARCHIVE" -C models
+info "Models extracted!"
 
 info "Cleaning up archives..."
 rm -f data/"$ARCHIVE_1" data/"$RESOURCES_ARCHIVE" data/"$MODELS_ARCHIVE"
@@ -122,6 +166,7 @@ rm -f data/"$ARCHIVE_1" data/"$RESOURCES_ARCHIVE" data/"$MODELS_ARCHIVE"
 for i in $(seq 0 $((CHUNK_COUNT - 1))); do
   rm -f data/"${CHUNK_PREFIX}_${i}.zip"
 done
+info "Cleanup complete!"
 
 # 3) Launch Elasticsearch: Try Docker first, then Apptainer fallback
 cd elasticsearch

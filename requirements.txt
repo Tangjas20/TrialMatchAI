@@ -1,7 +1,8 @@
 # Core ML / NLP
-torch==2.9.0.dev20250803+cu128
-torchvision==0.24.0.dev20250803+cu128
-torchaudio==2.8.0.dev20250803+cu128
+# Mac-compatible versions (CPU/MPS support)
+torch==2.9.0
+torchvision==0.24.0
+torchaudio==2.9.0
 transformers==4.54.1
 accelerate==1.8.1
 tokenizers==0.21.0
@@ -13,8 +14,8 @@ faiss-cpu==1.9.0.post1
 peft==0.15.2
 einops==0.8.0
 tiktoken==0.8.0
-bitsandbytes==0.46.1
-vllm==0.10.1.1
+# bitsandbytes==0.46.1  # CUDA-only - disabled for Mac
+# vllm==0.10.1.1  # CUDA-focused - disabled for Mac
 # Classical stack & utilities
 numpy==1.26.4
 scipy==1.15.1
@@ -28,14 +29,15 @@ python-dotenv==1.0.1
 rich==13.9.4
 
 # spaCy / medspaCy (for your medical text work)
-spacy==3.7.5
-medspacy==1.3.1
-medspacy_quickumls==3.2
-PyRuSH==1.0.9
-PyFastNER==1.0.10
-pysbd==0.3.4
-quicksectx==0.4.0
-gliner==0.2.16
+# Removed version constraints for Python 3.13 compatibility
+spacy>=3.7
+medspacy>=1.3
+medspacy_quickumls>=3.2
+PyRuSH>=1.0
+PyFastNER>=1.0
+pysbd>=0.3
+quicksectx>=0.4
+gliner>=0.2
 
 # App / infra
 SQLAlchemy==2.0.37
